@@ -6,7 +6,8 @@ Project for Java Developer on EC Utbildning 2020.
 - [ ] Sprint 2
 - [ ] Sprint 3
 
-** Credits ** 
+**Credits** 
+
 @Fjedern
 @elivilhelm
 @JDalenback
