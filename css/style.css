@@ -1,0 +1,10 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#gallery-item > img {
+  width: 25%;
+  height: auto;
+}
