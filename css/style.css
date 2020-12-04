@@ -8,3 +8,47 @@
   width: 25%;
   height: auto;
 }
+
+.nav-item1 {
+  list-style: none;
+  margin-top: 4rem;
+}
+.nav-item1 a {
+  text-decoration: none;
+  margin: 2rem;
+  font-weight: bold;
+  color: black;
+}
+
+.nav-item2 a {
+  text-decoration: none;
+  margin: 2rem;
+  font-size: 0.7rem;
+  color: rgb(218, 210, 210);
+}
+
+.nav-item2 {
+  list-style: none;
+}
+
+.nav-list2 {
+  display: flex;
+  justify-content: center;
+  margin-right: 15rem;
+}
+
+.nav-item3 {
+  list-style: none;
+  margin-right: 2rem;
+}
+
+.nav-item3 a {
+  text-decoration: none;
+  margin-trim: 1rem;
+  color: rgb(158, 145, 145);
+  font-size: 0.9rem;
+}
+
+.a:hover {
+  color: yellow;
+}
