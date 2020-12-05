@@ -11,29 +11,36 @@
 
 .logo {
   margin-top: 3rem;
-}
-
-.logo a {
-  text-decoration: none;
+  letter-spacing: 2px;
 }
 
 .biggerlogo a {
-  font-weight: bold;
   margin: 2rem;
 }
 
 .smallerlogo a {
   color: rgb(238, 231, 231);
-  font-size: 0.3;
   margin: 2rem;
+  font-size: x-small;
 }
 
+.smallerlogo a:hover {
+  color: rgb(146, 136, 136) !important;
+}
+
+.logo a {
+  text-decoration: none;
+}
+.nav-item a:hover {
+  font-weight: bold !important;
+}
 .nav-item a {
   margin: 1rem;
   font-size: 0.8rem;
   color: rgb(138, 121, 121);
   text-decoration: none;
 }
+
 .nav-item {
   margin-right: 1rem;
   list-style: none;
