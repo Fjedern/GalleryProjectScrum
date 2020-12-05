@@ -9,46 +9,37 @@
   height: auto;
 }
 
-.nav-item1 {
-  list-style: none;
-  margin-top: 4rem;
+.logo {
+  margin-top: 3rem;
 }
-.nav-item1 a {
+
+.logo a {
   text-decoration: none;
-  margin: 2rem;
+}
+
+.biggerlogo a {
   font-weight: bold;
-  color: black;
-}
-
-.nav-item2 a {
-  text-decoration: none;
   margin: 2rem;
-  font-size: 0.7rem;
-  color: rgb(218, 210, 210);
 }
 
-.nav-item2 {
+.smallerlogo a {
+  color: rgb(238, 231, 231);
+  font-size: 0.3;
+  margin: 2rem;
+}
+
+.nav-item a {
+  margin: 1rem;
+  font-size: 0.8rem;
+  color: rgb(138, 121, 121);
+  text-decoration: none;
+}
+.nav-item {
+  margin-right: 1rem;
   list-style: none;
 }
-
-.nav-list2 {
+.nav-list {
   display: flex;
   justify-content: center;
   margin-right: 15rem;
-}
-
-.nav-item3 {
-  list-style: none;
-  margin-right: 2rem;
-}
-
-.nav-item3 a {
-  text-decoration: none;
-  margin-trim: 1rem;
-  color: rgb(158, 145, 145);
-  font-size: 0.9rem;
-}
-
-.a:hover {
-  color: yellow;
 }
