@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 let imgs = [];
 let imgsArray = [];
@@ -13,16 +13,16 @@ class Imgs {
 }
 
 (function () {
-  const sortButton = document.getElementById('sort');
-  sortButton.addEventListener('click', () => {
-    sortButton.classList.toggle('rev');
-    if (sortButton.className == 'rev') {
+  const sortButton = document.getElementById("sort");
+  sortButton.addEventListener("click", () => {
+    sortButton.classList.toggle("rev");
+    if (sortButton.className == "rev") {
       imgsArray.sort((a, b) => (a.unix < b.unix ? 1 : -1));
     } else {
       imgsArray.sort((a, b) => (a.unix > b.unix ? 1 : -1));
     }
 
-    const galleryImgs = document.getElementsByTagName('img');
+    const galleryImgs = document.getElementsByTagName("img");
     if (galleryImgs.length > 0) {
       for (let i = 0; i < galleryImgs.length; i++) {
         galleryImgs[i].src = imgsArray[i].imgUrl;
@@ -31,18 +31,18 @@ class Imgs {
   });
 })();
 
-window.addEventListener('load', function () {
+window.addEventListener("load", function () {
   document
     .querySelector('input[type="file"]')
-    .addEventListener('change', function () {
+    .addEventListener("change", function () {
       if (this.files && this.files[0]) {
-        const galleryItem = document.getElementById('gallery-item');
-        const imgItem = document.createElement('img');
+        const galleryItem = document.getElementById("gallery-item");
+        const imgItem = document.createElement("img");
         imgItem.src = URL.createObjectURL(this.files[0]); // set src to blob url
 
         imgs.push(imgItem);
 
-        const usrText = 'lorem  ipsum askjdaösdhaljwdlakjsdn';
+        const usrText = "lorem  ipsum askjdaösdhaljwdlakjsdn";
 
         imgsArray.push(
           new Imgs(
