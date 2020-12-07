@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 let imgsElements = [];
 let imgsObjects = [];
@@ -17,7 +17,6 @@ class ImgObject {
   }
 }
 
-
 /**
  * Eventlistener for html element input file.
  * Listens for changes, i.e when we load a new file.
@@ -25,10 +24,9 @@ class ImgObject {
  * Adds the img element to array and creates
  */
 window.addEventListener('load', function () {
-  
   document
     .querySelector('input[type="file"]')
-    .addEventListener("change", function () {
+    .addEventListener('change', function () {
       if (this.files && this.files[0]) {
         const galleryItem = document.getElementById('gallery-item');
         const imgElement = document.createElement('img');
