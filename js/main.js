@@ -2,6 +2,7 @@
 
 let imgsElements = [];
 let imgsObjects = [];
+let objectIndex = 0;
 
 /**
  * Object for user uploaded images.
@@ -28,7 +29,8 @@ window.addEventListener('load', function () {
     .querySelector('input[type="file"]')
     .addEventListener('change', function () {
       if (this.files && this.files[0]) {
-        const galleryItem = document.getElementById('gallery-item');
+        const galleryItem = createGalleryItem();
+
         const imgElement = document.createElement('img');
         imgElement.src = URL.createObjectURL(this.files[0]); // set src to blob url
 
@@ -49,6 +51,9 @@ window.addEventListener('load', function () {
 
         // Append the newly created img element to the div called galleryItem.
         galleryItem.appendChild(imgsElements[imgsElements.length - 1]);
+        document.getElementById('gallery').appendChild(galleryItem);
+        imgAddDescription();
+        igmShowDescription();
 
         // Don't forget to revoke the objectUrl when rejecting duplicate or removing object.
       }
@@ -62,18 +67,63 @@ window.addEventListener('load', function () {
 (function () {
   const sortButton = document.getElementById('sort');
   sortButton.addEventListener('click', () => {
-    sortButton.classList.toggle('rev');
-    if (sortButton.className == 'rev') {
-      imgsObjects.sort((a, b) => (a.unix < b.unix ? 1 : -1));
-    } else {
-      imgsObjects.sort((a, b) => (a.unix > b.unix ? 1 : -1));
-    }
+    if (imgsObjects && imgsObjects.length > 0) {
+      sortButton.classList.toggle('rev');
+      if (sortButton.className == 'rev') {
+        imgsObjects.sort((a, b) => (a.unix < b.unix ? 1 : -1));
+      } else {
+        imgsObjects.sort((a, b) => (a.unix > b.unix ? 1 : -1));
+      }
 
-    const galleryImgs = document.getElementsByTagName('img');
-    if (galleryImgs.length > 0) {
-      for (let i = 0; i < galleryImgs.length; i++) {
-        galleryImgs[i].src = imgsObjects[i].imgUrl;
+      const galleryImgs = document.getElementsByTagName('img');
+      if (galleryImgs.length > 0) {
+        for (let i = 0; i < galleryImgs.length; i++) {
+          galleryImgs[i].src = imgsObjects[i].imgUrl;
+        }
       }
     }
   });
 })();
+
+// Eventlistener for addNoteBtn.
+function imgAddDescription() {
+  const btns = document.getElementsByClassName('add-description-btn');
+  const btn = btns[btns.length - 1];
+  btn.addEventListener('click', () => {
+    const id = btn.getAttribute('id');
+    const usrDescription = prompt('Enter a description about the image');
+    imgsObjects[id].note = usrDescription;
+  });
+}
+
+function igmShowDescription() {
+  const btns = document.getElementsByClassName('show-description');
+
+  const btn = btns[btns.length - 1];
+  btn.addEventListener('click', () => {
+    const id = btn.getAttribute('id');
+    console.log(imgsObjects[id].note);
+  });
+}
+
+// Create Gallery Item and all its children.
+function createGalleryItem() {
+  const galleryItem = document.createElement('div');
+  galleryItem.setAttribute('id', 'gallery-item');
+
+  const addDescriptionBtn = document.createElement('button');
+  addDescriptionBtn.textContent = 'Add Description';
+  addDescriptionBtn.setAttribute('class', 'add-description-btn');
+  addDescriptionBtn.setAttribute('id', objectIndex);
+  galleryItem.appendChild(addDescriptionBtn);
+
+  const showDescription = document.createElement('button');
+  showDescription.setAttribute('class', 'show-description');
+  showDescription.textContent = 'Show Note';
+  showDescription.setAttribute('id', objectIndex);
+
+  galleryItem.appendChild(showDescription);
+
+  objectIndex++;
+  return galleryItem;
+}
