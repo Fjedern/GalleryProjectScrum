@@ -2,19 +2,19 @@
 
 let imgsElements = [];
 let imgsObjects = [];
-let objectIndex = 0;
 
 /**
  * Object for user uploaded images.
- * Holds information about the image such as name, last modified date and the user note for that image.
+ * Holds information about the image such as name, last modified date and the igm description.
  */
 class ImgObject {
-  constructor(name, imgUrl, unix, date, note) {
+  constructor(name, imgUrl, unix, date, description, id) {
     this.imgUrl = imgUrl;
     this.unix = unix;
     this.date = date;
-    this.note = note;
+    this.description = description;
     this.name = name;
+    this.id = id;
   }
 }
 
@@ -36,7 +36,11 @@ window.addEventListener('load', function () {
 
         imgsElements.push(imgElement);
 
-        const usrText = 'lorem  ipsum askjdaösdhaljwdlakjsdn'; // Simulate user note.
+        const usrText = 'Image Description'; // Simulate img description.
+
+        // Used for setting id of "addescriptoion button" and imgObjects.
+        const index = document.getElementsByClassName('add-description-btn')
+          .length;
 
         // Create new ImgObject and sotre it in imgsObjects array.
         imgsObjects.push(
@@ -45,15 +49,17 @@ window.addEventListener('load', function () {
             imgElement.src,
             this.files[0].lastModified,
             this.files[0].lastModifiedDate,
-            usrText
+            usrText,
+            index
           )
         );
 
         // Append the newly created img element to the div called galleryItem.
         galleryItem.appendChild(imgsElements[imgsElements.length - 1]);
         document.getElementById('gallery').appendChild(galleryItem);
-        imgAddDescription();
-        igmShowDescription();
+
+        imgAddDescription(index);
+        igmShowDescription(index);
 
         // Don't forget to revoke the objectUrl when rejecting duplicate or removing object.
       }
@@ -85,32 +91,45 @@ window.addEventListener('load', function () {
   });
 })();
 
-// Eventlistener for addNoteBtn.
-function imgAddDescription() {
+// Eventlistener for add descriptopn btn.
+function imgAddDescription(index) {
   const btns = document.getElementsByClassName('add-description-btn');
-  const btn = btns[btns.length - 1];
+  const btn = btns[index];
   btn.addEventListener('click', () => {
     const id = btn.getAttribute('id');
     const usrDescription = prompt('Enter a description about the image');
-    imgsObjects[id].note = usrDescription;
+    imgsObjects[id].description = usrDescription;
   });
 }
 
-function igmShowDescription() {
+function igmShowDescription(index) {
   const btns = document.getElementsByClassName('show-description');
 
-  const btn = btns[btns.length - 1];
+  const btn = btns[index];
   btn.addEventListener('click', () => {
     const id = btn.getAttribute('id');
-    console.log(imgsObjects[id].note);
+    console.log(
+      imgsObjects[id].description +
+        ' index: ' +
+        index +
+        ' oboject id ' +
+        imgsObjects[id].id
+    );
   });
 }
 
 // Create Gallery Item and all its children.
 function createGalleryItem() {
-  const galleryItem = document.createElement('div');
-  galleryItem.setAttribute('id', 'gallery-item');
+  //Check how many gallery items there are in the DOM.
+  const objectIndex = document.getElementsByClassName('gallery-item').length;
 
+  //Create div with class of gallery-item.
+  const galleryItem = document.createElement('div');
+  galleryItem.setAttribute('class', 'gallery-item');
+
+  //Create button for adding description to the img.
+  //Give it class name of 'add-description-btn'.
+  //
   const addDescriptionBtn = document.createElement('button');
   addDescriptionBtn.textContent = 'Add Description';
   addDescriptionBtn.setAttribute('class', 'add-description-btn');
@@ -119,11 +138,10 @@ function createGalleryItem() {
 
   const showDescription = document.createElement('button');
   showDescription.setAttribute('class', 'show-description');
-  showDescription.textContent = 'Show Note';
+  showDescription.textContent = 'Show Description';
   showDescription.setAttribute('id', objectIndex);
 
   galleryItem.appendChild(showDescription);
 
-  objectIndex++;
   return galleryItem;
 }
