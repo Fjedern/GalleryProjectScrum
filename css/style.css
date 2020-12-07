@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+#gallery-wrapper {
+  background-color: green;
+}
+
 #gallery-item > img {
   width: 25%;
   height: auto;
@@ -35,6 +39,7 @@
 .nav-item :hover {
   font-weight: bold;
 }
+
 .nav-item a {
   margin: 1rem;
   font-size: 0.8rem;
@@ -46,8 +51,9 @@
   margin-right: 1rem;
   list-style: none;
 }
+
 .nav-list {
   display: flex;
   justify-content: center;
   margin-right: 15rem;
-}
+{

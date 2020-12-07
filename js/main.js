@@ -1,64 +1,81 @@
 "use strict";
 
-let imgs = [];
-let imgsArray = [];
+let imgsElements = [];
+let imgsObjects = [];
 
-class Imgs {
-  constructor(imgUrl, unix, date, note) {
+/**
+ * Object for user uploaded images.
+ * Holds information about the image such as name, last modified date and the user note for that image.
+ */
+class ImgObject {
+  constructor(name, imgUrl, unix, date, note) {
     this.imgUrl = imgUrl;
     this.unix = unix;
     this.date = date;
     this.note = note;
+    this.name = name;
   }
 }
 
-(function () {
-  const sortButton = document.getElementById("sort");
-  sortButton.addEventListener("click", () => {
-    sortButton.classList.toggle("rev");
-    if (sortButton.className == "rev") {
-      imgsArray.sort((a, b) => (a.unix < b.unix ? 1 : -1));
-    } else {
-      imgsArray.sort((a, b) => (a.unix > b.unix ? 1 : -1));
-    }
 
-    const galleryImgs = document.getElementsByTagName("img");
-    if (galleryImgs.length > 0) {
-      for (let i = 0; i < galleryImgs.length; i++) {
-        galleryImgs[i].src = imgsArray[i].imgUrl;
-      }
-    }
-  });
-})();
-
-window.addEventListener("load", function () {
+/**
+ * Eventlistener for html element input file.
+ * Listens for changes, i.e when we load a new file.
+ * Creates a html img element and sets file objectUrl (blob) as the src.
+ * Adds the img element to array and creates
+ */
+window.addEventListener('load', function () {
+  
   document
     .querySelector('input[type="file"]')
     .addEventListener("change", function () {
       if (this.files && this.files[0]) {
-        const galleryItem = document.getElementById("gallery-item");
-        const imgItem = document.createElement("img");
-        imgItem.src = URL.createObjectURL(this.files[0]); // set src to blob url
+        const galleryItem = document.getElementById('gallery-item');
+        const imgElement = document.createElement('img');
+        imgElement.src = URL.createObjectURL(this.files[0]); // set src to blob url
 
-        imgs.push(imgItem);
+        imgsElements.push(imgElement);
 
-        const usrText = "lorem  ipsum askjdaösdhaljwdlakjsdn";
+        const usrText = 'lorem  ipsum askjdaösdhaljwdlakjsdn'; // Simulate user note.
 
-        imgsArray.push(
-          new Imgs(
-            imgItem.src,
+        // Create new ImgObject and sotre it in imgsObjects array.
+        imgsObjects.push(
+          new ImgObject(
+            this.files[0].name,
+            imgElement.src,
             this.files[0].lastModified,
             this.files[0].lastModifiedDate,
             usrText
           )
         );
 
-        galleryItem.appendChild(imgs[imgs.length - 1]);
+        // Append the newly created img element to the div called galleryItem.
+        galleryItem.appendChild(imgsElements[imgsElements.length - 1]);
 
-        // for (let i = 0; i < imgs.length; i++) {
-        //   galleryItem.appendChild(imgs[i]);
-        // }
+        // Don't forget to revoke the objectUrl when rejecting duplicate or removing object.
       }
-      console.log(imgsArray);
     });
 });
+
+/**
+ * Event listener for sort button. Sorts images conatined in img array and displays them in new order on screen.
+ * @type {html-element} sortButton - Html Button with id sortButton.
+ */
+(function () {
+  const sortButton = document.getElementById('sort');
+  sortButton.addEventListener('click', () => {
+    sortButton.classList.toggle('rev');
+    if (sortButton.className == 'rev') {
+      imgsObjects.sort((a, b) => (a.unix < b.unix ? 1 : -1));
+    } else {
+      imgsObjects.sort((a, b) => (a.unix > b.unix ? 1 : -1));
+    }
+
+    const galleryImgs = document.getElementsByTagName('img');
+    if (galleryImgs.length > 0) {
+      for (let i = 0; i < galleryImgs.length; i++) {
+        galleryImgs[i].src = imgsObjects[i].imgUrl;
+      }
+    }
+  });
+})();

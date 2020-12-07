@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Digital Journal</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="./css/style.css" />
-  </head>
-  <body>
-    <!-- HEADER -->
-    <header>
-      <nav>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Digital Journal</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+    integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+  <!-- -- -->
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="css/button.css" />
+
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+          <nav>
         <div class="logo">
           <h4 class="biggerlogo"><a href="#">ANNABELLE AND TRAVIS</a></h4>
           <h6 class="smallerlogo"><a href="#">TREVOR DAYLEY PHOTOGRAPHY</a></h6>
@@ -26,24 +34,28 @@
           <li class="nav-item"><a href="#">ALL BW</a></li>
         </ul>
       </nav>
-    </header>
-    <!-- HEADER END -->
+  </header>
+  <!-- HEADER END -->
 
-    <!-- MAIN -->
-    <main>
-      <div id="gallery-wrapper">
-        <div id="gallery">
-          <input type="file" />
-          <button id="sort">SORT</button>
-          <div id="gallery-item"></div>
-        </div>
+  <!-- MAIN -->
+  <main>
+    <div id="gallery-wrapper">
+      <div id="gallery">
+        <label class="button">
+          <input type="file" style="display: none" />
+          <a>Upload Photo <i class="fas fa-upload"></i></a>
+        </label>
+        <button class="button" id="sort">SORT</button>
+        <div id="gallery-item"></div>
       </div>
-    </main>
-    <!-- MAIN END -->
+    </div>
+  </main>
+  <!-- MAIN END -->
 
-    <!-- FOOTER -->
-    <footer></footer>
-    <!-- FOOTER END -->
-    <script src="./js/main.js" async defer></script>
-  </body>
+  <!-- FOOTER -->
+  <footer></footer>
+  <!-- FOOTER END -->
+  <script src="./js/main.js" async defer></script>
+</body>
+
 </html>
