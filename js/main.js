@@ -56,7 +56,7 @@ window.addEventListener('load', function () {
 });
 
 /**
- * Event listener for sort button. Sorts images conatined in img array and displays them in new order on screen.
+ * Event listener for sort button. Sorts images conatined in imgsObjects and displays them in new order on screen.
  * @type {html-element} sortButton - Html Button with id sortButton.
  */
 (function () {
