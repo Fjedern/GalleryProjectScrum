@@ -75,7 +75,7 @@ window.addEventListener('load', function () {
   sortButton.addEventListener('click', () => {
     if (imgsObjects && imgsObjects.length > 0) {
       sortButton.classList.toggle('rev');
-      if (sortButton.className == 'rev') {
+      if (sortButton.className == 'button rev') {
         imgsObjects.sort((a, b) => (a.unix < b.unix ? 1 : -1));
       } else {
         imgsObjects.sort((a, b) => (a.unix > b.unix ? 1 : -1));
