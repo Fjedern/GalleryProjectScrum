@@ -8,9 +8,23 @@
   background-color: green;
 }
 
-#gallery-item > img {
+.gallery-item {
+  position: relative;
+}
+
+.gallery-item > img {
   width: 25%;
   height: auto;
+}
+
+.gallery-item .add-description-btn {
+  position: absolute;
+}
+
+.gallery-item .show-description {
+  position: absolute;
+  top: 20px;
+  left: 0;
 }
 
 .logo {
