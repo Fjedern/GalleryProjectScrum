@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title>Digital Journal</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,6 +16,7 @@
 
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/button.css" />
+    <link rel="stylesheet" href="css/temporary.css" />
   </head>
 
   <body>
@@ -41,13 +42,14 @@
 
     <!-- MAIN -->
     <main>
-      <div id="gallery-wrapper">
+      <label class="button">
+        <input type="file" style="display: none" />
+        <a>Upload Photo <i class="fas fa-upload"></i></a>
+      </label>
+      <button class="button" id="sort">SORT</button>
+      <div class="gallery-wrapper">
         <div id="gallery">
-          <label class="button">
-            <input type="file" style="display: none" />
-            <a>Upload Photo <i class="fas fa-upload"></i></a>
-          </label>
-          <button class="button" id="sort">SORT</button>
+          
         </div>
       </div>
     </main>
