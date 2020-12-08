@@ -29,7 +29,9 @@ window.addEventListener('load', function () {
     .querySelector('input[type="file"]')
     .addEventListener('change', function () {
       if (this.files && this.files[0]) {
-        const galleryItem = createGalleryItem();
+        // Used for setting "unique" class foro each gallery-item.
+        const index = document.getElementsByClassName('gallery-item').length;
+        const galleryItem = createGalleryItem(index);
 
         const imgElement = document.createElement('img');
         imgElement.src = URL.createObjectURL(this.files[0]); // set src to blob url
@@ -37,10 +39,6 @@ window.addEventListener('load', function () {
         imgsElements.push(imgElement);
 
         const usrText = 'Image Description'; // Simulate img description.
-
-        // Used for setting id of "addescriptoion button" and imgObjects.
-        const index = document.getElementsByClassName('add-description-btn')
-          .length;
 
         // Create new ImgObject and sotre it in imgsObjects array.
         imgsObjects.push(
@@ -96,9 +94,8 @@ function imgAddDescription(index) {
   const btns = document.getElementsByClassName('add-description-btn');
   const btn = btns[index];
   btn.addEventListener('click', () => {
-    const id = btn.getAttribute('id');
     const usrDescription = prompt('Enter a description about the image');
-    imgsObjects[id].description = usrDescription;
+    imgsObjects[index].description = usrDescription;
   });
 }
 
@@ -107,25 +104,22 @@ function igmShowDescription(index) {
 
   const btn = btns[index];
   btn.addEventListener('click', () => {
-    const id = btn.getAttribute('id');
     console.log(
-      imgsObjects[id].description +
+      imgsObjects[index].description +
         ' index: ' +
         index +
         ' object id ' +
-        imgsObjects[id].id
+        imgsObjects[index].id
     );
   });
 }
 
 // Create Gallery Item and all its children.
-function createGalleryItem() {
-  //Check how many gallery items there are in the DOM.
-  const index = document.getElementsByClassName('gallery-item').length;
-
+function createGalleryItem(index) {
   //Create div with class of gallery-item.
   const galleryItem = document.createElement('div');
   galleryItem.setAttribute('class', 'gallery-item');
+  galleryItem.classList.add(index);
 
   //Create button for adding description to the img.
   //Give it class name of 'add-description-btn'.
