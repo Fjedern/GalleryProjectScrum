@@ -91,7 +91,7 @@ window.addEventListener('load', function () {
   });
 })();
 
-// Eventlistener for add descriptopn btn.
+// Eventlistener for add descripton btn.
 function imgAddDescription(index) {
   const btns = document.getElementsByClassName('add-description-btn');
   const btn = btns[index];
@@ -112,7 +112,7 @@ function igmShowDescription(index) {
       imgsObjects[id].description +
         ' index: ' +
         index +
-        ' oboject id ' +
+        ' object id ' +
         imgsObjects[id].id
     );
   });
@@ -121,7 +121,7 @@ function igmShowDescription(index) {
 // Create Gallery Item and all its children.
 function createGalleryItem() {
   //Check how many gallery items there are in the DOM.
-  const objectIndex = document.getElementsByClassName('gallery-item').length;
+  const index = document.getElementsByClassName('gallery-item').length;
 
   //Create div with class of gallery-item.
   const galleryItem = document.createElement('div');
@@ -129,17 +129,18 @@ function createGalleryItem() {
 
   //Create button for adding description to the img.
   //Give it class name of 'add-description-btn'.
-  //
+  //Give it an index as id. Use when removing images.
   const addDescriptionBtn = document.createElement('button');
   addDescriptionBtn.textContent = 'Add Description';
   addDescriptionBtn.setAttribute('class', 'add-description-btn');
-  addDescriptionBtn.setAttribute('id', objectIndex);
+  addDescriptionBtn.setAttribute('id', index);
   galleryItem.appendChild(addDescriptionBtn);
 
+  //Primarily for debugging purposes. Reuse logic to show description later.
   const showDescription = document.createElement('button');
   showDescription.setAttribute('class', 'show-description');
   showDescription.textContent = 'Show Description';
-  showDescription.setAttribute('id', objectIndex);
+  showDescription.setAttribute('id', index);
 
   galleryItem.appendChild(showDescription);
 

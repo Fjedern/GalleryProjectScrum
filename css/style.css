@@ -8,13 +8,13 @@
   background-color: green;
 }
 
+.gallery-item {
+  position: relative;
+}
+
 .gallery-item > img {
   width: 25%;
   height: auto;
-}
-
-.gallery-item {
-  position: relative;
 }
 
 .gallery-item .add-description-btn {
