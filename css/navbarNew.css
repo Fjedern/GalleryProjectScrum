@@ -14,7 +14,6 @@ nav {
     display: flex;
     flex-direction: row;
     width: 100%;
-
 }
 
 .nav-list {
@@ -65,7 +64,5 @@ nav a {
     font-size: 4em;
     text-align: center;
     color: black;
-
-    
 }
 

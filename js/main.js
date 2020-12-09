@@ -57,6 +57,7 @@ window.addEventListener('load', function () {
         // Append the newly created img element to the div called galleryItem.
         galleryItem.appendChild(imgsElements[imgsElements.length - 1]);
         document.getElementById('gallery').appendChild(galleryItem);
+        document.getElementById('gallery').scrollIntoView();
 
         imgAddDescription(index);
         igmShowDescription(index);
