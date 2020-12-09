@@ -143,6 +143,6 @@ function createGalleryItem() {
   showDescription.setAttribute('id', index);
 
   galleryItem.appendChild(showDescription);
-
+  
   return galleryItem;
 }
