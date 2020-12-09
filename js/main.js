@@ -2,6 +2,7 @@
 
 let imgsElements = [];
 let imgsObjects = [];
+let id = 0;
 
 /**
  * Object for user uploaded images.
@@ -30,8 +31,11 @@ window.addEventListener('load', function () {
     .addEventListener('change', function () {
       if (this.files && this.files[0]) {
         // Used for setting "unique" class foro each gallery-item.
-        const index = document.getElementsByClassName('gallery-item').length;
-        const galleryItem = createGalleryItem(index);
+
+        // TODO: Make this a pseudo unique id number. Will not work as is!
+        //const index = document.getElementsByClassName('gallery-item').length;
+
+        const galleryItem = createGalleryItem(id);
 
         const imgElement = document.createElement('img');
         imgElement.src = URL.createObjectURL(this.files[0]); // set src to blob url
@@ -48,7 +52,7 @@ window.addEventListener('load', function () {
             this.files[0].lastModified,
             this.files[0].lastModifiedDate,
             usrText,
-            index
+            id
           )
         );
 
@@ -56,9 +60,13 @@ window.addEventListener('load', function () {
         galleryItem.appendChild(imgsElements[imgsElements.length - 1]);
         document.getElementById('gallery').appendChild(galleryItem);
 
-        imgAddDescription(index);
-        igmShowDescription(index);
+        const btnsIndex =
+          document.getElementsByClassName('add-description-btn').length - 1;
+        imgAddDescription(btnsIndex);
+        igmShowDescription(btnsIndex);
+        imgDelete(btnsIndex);
 
+        id++;
         // Don't forget to revoke the objectUrl when rejecting duplicate or removing object.
       }
     });
@@ -95,6 +103,8 @@ function imgAddDescription(index) {
   const btn = btns[index];
   btn.addEventListener('click', () => {
     const usrDescription = prompt('Enter a description about the image');
+
+    // TODO get the correct object. Can't use index as is.
     imgsObjects[index].description = usrDescription;
   });
 }
@@ -104,13 +114,28 @@ function igmShowDescription(index) {
 
   const btn = btns[index];
   btn.addEventListener('click', () => {
+    const galleryItem = document.getElementsByClassName('gallery-item')[index];
+    const imgObject = imgsObjects.find((obj) => {
+      return obj.imgUrl == galleryItem.getElementsByTagName('img')[0].src;
+    });
     console.log(
-      imgsObjects[index].description +
-        ' index: ' +
-        index +
-        ' object id ' +
-        imgsObjects[index].id
+      imgObject.description +
+        ', object id:' +
+        imgObject.id +
+        ', div id: ' +
+        index
     );
+  });
+}
+
+function imgDelete(index) {
+  const btns = document.getElementsByClassName('delete-img');
+  const btn = btns[index];
+  btn.addEventListener('click', () => {
+    const galleryItem = btn.parentElement;
+    console.log(btns);
+    galleryItem.remove();
+    console.log(btns);
   });
 }
 
@@ -119,7 +144,7 @@ function createGalleryItem(index) {
   //Create div with class of gallery-item.
   const galleryItem = document.createElement('div');
   galleryItem.setAttribute('class', 'gallery-item');
-  galleryItem.classList.add(index);
+  galleryItem.setAttribute('id', index);
 
   //Create button for adding description to the img.
   //Give it class name of 'add-description-btn'.
@@ -127,16 +152,18 @@ function createGalleryItem(index) {
   const addDescriptionBtn = document.createElement('button');
   addDescriptionBtn.textContent = 'Add Description';
   addDescriptionBtn.setAttribute('class', 'add-description-btn');
-  addDescriptionBtn.setAttribute('id', index);
   galleryItem.appendChild(addDescriptionBtn);
 
   //Primarily for debugging purposes. Reuse logic to show description later.
   const showDescription = document.createElement('button');
   showDescription.setAttribute('class', 'show-description');
   showDescription.textContent = 'Show Description';
-  showDescription.setAttribute('id', index);
-
   galleryItem.appendChild(showDescription);
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.setAttribute('class', 'delete-img');
+  deleteBtn.textContent = 'Delete';
+  galleryItem.appendChild(deleteBtn);
 
   return galleryItem;
 }

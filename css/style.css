@@ -27,6 +27,12 @@
   left: 0;
 }
 
+.gallery-item .delete-img {
+  position: absolute;
+  top: 40px;
+  left: 0;
+}
+
 .logo {
   margin-top: 3rem;
   letter-spacing: 2px;
