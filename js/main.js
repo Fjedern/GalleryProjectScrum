@@ -147,10 +147,15 @@ function createGalleryItem() {
   //Give it class name of 'add-description-btn'.
   //Give it an index as id. Use when removing images.
 
+  const heart = document.createElement("a");
+  heart.innerHTML = '<i class="far fa-heart"></i>';
+  heart.setAttribute("class", "heart");
+  heart.setAttribute("id", index);
+  galleryItem.appendChild(heart);
+
   const likeButton = document.createElement("button");
-  likeButton.innerHTML = '<i class="far fa-heart"></i>';
   likeButton.setAttribute("class", "i-like");
-  likeButton.textContent = "likeBtn";
+  likeButton.textContent = heart;
   likeButton.setAttribute("id", index);
   galleryItem.appendChild(likeButton);
 
