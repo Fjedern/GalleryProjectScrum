@@ -7,23 +7,22 @@
 
 #gallery{
   display:flex;
-  flex-wrap:wrap;
+  justify-content:center;
   flex-direction:row;
-
+  flex-wrap:wrap;
+  flex-grow:1;
+  
   
 }
+
 
 .gallery-item {
   position: relative;
+  
 }
 
-.gallery-item>img{
-  
-  width:100%;
-  height:auto;
-  padding:2px;
-  
-}
+
+
 
 
 
@@ -53,8 +52,13 @@ img:hover{
 @media only screen and (max-width: 500px) and (orientation:portrait){
 
 .gallery-item{
-    max-width:100%;
-    height:auto;
+    margin-top:3px;
+    overflow:hidden;
+    justify-content:center;
+}
+.gallery-item>img{
+  width:100%;
+  height:auto;
 
 }
 
@@ -64,23 +68,36 @@ img:hover{
 @media only screen and (min-width:500px) and (max-width: 800px) and (orientation:landscape){
 
   .gallery-item{
-      max-width: 33%;
-      height:auto;
-  
-  }
-  
+    overflow:hidden;
   
   }
 
+  .gallery-item>img{
+    height:150px;
+    width:auto;
 
+}
+  
+  
+  }
 
+  @media only screen and (min-width:800px){
 
-@media only screen and (min-width:800px){
-
+    .gallery-item>img{
+      height:250px;
+      width:auto;
+  
+      
+  }
+  
   .gallery-item {
     max-width:25%;
     height:auto;
+    overflow:hidden;
+    margin:8px;
+    
+
   }
 
 
-}
+  }
