@@ -120,20 +120,22 @@ function igmShowDescription(index) {
 }
 
 function likeButton(index) {
-  const btns = document.getElementsByClassName("i-like");
+  const btns = document.getElementsByClassName("like");
   const btn = btns[index];
   let isLiked = false;
   btn.addEventListener("click", () => {
     const id = btn.getAttribute("id");
     isLiked = !isLiked;
-    console.log("liked= " + getlikes());
-
+    console.log("liked= " + getlikes() + index);
+    toggleLike(index);
     function getlikes() {
       return isLiked;
     }
   });
 }
-
+function toggleLike(index) {
+  document.getElementById(index).classList.toggle("heartStyle");
+}
 // Create Gallery Item and all its children.
 function createGalleryItem() {
   //Check how many gallery items there are in the DOM.
@@ -147,15 +149,9 @@ function createGalleryItem() {
   //Give it class name of 'add-description-btn'.
   //Give it an index as id. Use when removing images.
 
-  const heart = document.createElement("a");
-  heart.innerHTML = '<i class="far fa-heart"></i>';
-  heart.setAttribute("class", "heart");
-  heart.setAttribute("id", index);
-  galleryItem.appendChild(heart);
-
   const likeButton = document.createElement("button");
-  likeButton.setAttribute("class", "i-like");
-  likeButton.textContent = heart;
+  likeButton.innerHTML = '<i class="far fa-heart"></i>';
+  likeButton.setAttribute("class", "like");
   likeButton.setAttribute("id", index);
   galleryItem.appendChild(likeButton);
 
