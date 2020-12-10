@@ -16,38 +16,45 @@
 
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/button.css" />
-    <link rel="stylesheet" href="css/temporary.css" />
+    <!-- <link rel="stylesheet" href="css/navbarOld.css" /> -->
+    <link rel="stylesheet" href="css/navbarNew.css" />
+    <link rel="stylesheet" href="css/wrapper.css" />
   </head>
 
   <body>
     <!-- HEADER -->
     <header>
       <nav>
-        <div class="logo">
-          <h4 class="biggerlogo"><a href="#">ANNABELLE AND TRAVIS</a></h4>
-          <h6 class="smallerlogo"><a href="#">TREVOR DAYLEY PHOTOGRAPHY</a></h6>
+        <div class="flexContainer">
+          <ul class="nav-list">
+            <li class="logo"><a href="#">Digital Journal</a></li>
+            <li class="nav-item"><a href="#">HIGHLIGHTS</a></li>
+            <li class="nav-item"><a href="#">GETTING REDY</a></li>
+            <li class="nav-item"><a href="#">BRIDE / GROOM</a></li>
+            <li class="nav-item"><a href="#">CEREMONY</a></li>
+            <li class="nav-item"><a href="#">new album goes here</a></li>
+          </ul>
+          <div id="miscButtons">
+            <label class="iconButtons">
+              <input type="file" style="display: none" />
+              <a><i class="fas fa-upload"></i></a>
+            </label>
+            <a class="iconButtons" id="sort"
+              ><i class="fas fa-sort-numeric-down"></i
+            ></a>
+            <a class="iconButtons"
+              ><span id="heartCounter"></span><i class="fas fa-heart"></i
+            ></a>
+          </div>
         </div>
-        <ul class="nav-list">
-          <li class="nav-item"><a href="#">HIGHLIGHTS</a></li>
-          <li class="nav-item"><a href="#">GETTING REDY</a></li>
-          <li class="nav-item"><a href="#">BRIDE / GROOM</a></li>
-          <li class="nav-item"><a href="#">CEREMONY</a></li>
-          <li class="nav-item"><a href="#">FAMILY / BRIDAL PARTY</a></li>
-          <li class="nav-item"><a href="#">RECEPTION</a></li>
-          <li class="nav-item"><a href="#">ALL BW</a></li>
-        </ul>
       </nav>
+      <div id="wrapper"></div>
     </header>
     <!-- HEADER END -->
 
     <!-- MAIN -->
     <main>
-      <label class="button">
-        <input type="file" style="display: none" />
-        <a>Upload Photo <i class="fas fa-upload"></i></a>
-      </label>
-      <button class="button" id="sort">SORT</button>
-      <button id="imgObj">imgObjects</button>
+      <button id="imgObj">TEST</button>
       <div class="gallery-wrapper">
         <div id="gallery"></div>
       </div>

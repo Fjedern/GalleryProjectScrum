@@ -1,0 +1,68 @@
+header {
+    width: calc(100vw-20px);
+}
+
+nav {
+    position: fixed;
+    z-index: 999;
+    background: rgba(255, 255, 255, .5);
+    width: 100%;
+}
+
+.flexContainer {
+    margin: 10px 0px 0px 0px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.nav-list {
+    flex: 0 0 80%;
+
+    display: flex;
+    align-items: baseline;
+}
+
+.nav-list a {
+    transition: all .3s;
+}
+
+.nav-list a:hover {
+    opacity: .5;
+}
+
+#miscButtons {
+    flex: 0 0 20%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.logo {
+    font-size: 2em;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: row;
+
+    list-style-type: none;
+    overflow: hidden;
+}
+
+nav li {
+    margin: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: black;
+}
+
+.iconButtons {
+    font-size: 4em;
+    text-align: center;
+    color: black;
+}
+

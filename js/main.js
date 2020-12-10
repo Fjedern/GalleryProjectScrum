@@ -4,11 +4,11 @@ document.getElementById('imgObj').addEventListener('click', () => {
   // console.log(imgsObjects);
 
   const galleryItems = document.getElementsByClassName('gallery-item');
-  console.log(
-    galleryItems.indexOf((item) => {
-      item.id == 1;
-    })
-  );
+  // console.log(
+  //   galleryItems.indexOf((item) => {
+  //     item.id == 1;
+  //   })
+  // );
   console.log(galleryItems);
 });
 
@@ -62,6 +62,7 @@ window.addEventListener('load', function () {
         );
 
         document.getElementById('gallery').appendChild(galleryItem);
+        document.getElementById('gallery').scrollIntoView();
 
         const btnsIndex =
           document.getElementsByClassName('add-description-btn').length - 1;
@@ -83,7 +84,7 @@ window.addEventListener('load', function () {
   sortButton.addEventListener('click', () => {
     if (imgsObjects && imgsObjects.length > 0) {
       sortButton.classList.toggle('rev');
-      if (sortButton.className == 'button rev') {
+      if (sortButton.className == 'iconButtons rev') {
         imgsObjects.sort((a, b) => (a.unix < b.unix ? 1 : -1));
       } else {
         imgsObjects.sort((a, b) => (a.unix > b.unix ? 1 : -1));
