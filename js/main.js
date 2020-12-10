@@ -1,8 +1,19 @@
 'use strict';
 
-let imgsElements = [];
-let imgsObjects = [];
-let id = 0;
+document.getElementById('imgObj').addEventListener('click', () => {
+  // console.log(imgsObjects);
+
+  const galleryItems = document.getElementsByClassName('gallery-item');
+  console.log(
+    galleryItems.indexOf((item) => {
+      item.id == 1;
+    })
+  );
+  console.log(galleryItems);
+});
+
+let imgsObjects = []; // Holds objects for each uploaded image.
+let id = 0; // Simmulating unique id. Could be generated in backend.
 
 /**
  * Object for user uploaded images.
@@ -30,25 +41,19 @@ window.addEventListener('load', function () {
     .querySelector('input[type="file"]')
     .addEventListener('change', function () {
       if (this.files && this.files[0]) {
-        // Used for setting "unique" class foro each gallery-item.
+        // TODO: Move this to createGalleryItem function and remove imgElement array!
 
-        // TODO: Make this a pseudo unique id number. Will not work as is!
-        //const index = document.getElementsByClassName('gallery-item').length;
+        const imgSrc = URL.createObjectURL(this.files[0]); // Get img src as blob url
 
-        const galleryItem = createGalleryItem(id);
+        const galleryItem = createGalleryItem(id, imgSrc);
 
-        const imgElement = document.createElement('img');
-        imgElement.src = URL.createObjectURL(this.files[0]); // set src to blob url
-
-        imgsElements.push(imgElement);
-
-        const usrText = 'Image Description'; // Simulate img description.
+        const usrText = 'Image Description'; // Default img description.
 
         // Create new ImgObject and sotre it in imgsObjects array.
         imgsObjects.push(
           new ImgObject(
             this.files[0].name,
-            imgElement.src,
+            imgSrc,
             this.files[0].lastModified,
             this.files[0].lastModifiedDate,
             usrText,
@@ -56,18 +61,15 @@ window.addEventListener('load', function () {
           )
         );
 
-        // Append the newly created img element to the div called galleryItem.
-        galleryItem.appendChild(imgsElements[imgsElements.length - 1]);
         document.getElementById('gallery').appendChild(galleryItem);
 
         const btnsIndex =
           document.getElementsByClassName('add-description-btn').length - 1;
-        imgAddDescription(btnsIndex);
-        igmShowDescription(btnsIndex);
-        imgDelete(btnsIndex);
+        imgAddDescription(id);
+        igmShowDescription(id);
+        imgDelete(id);
 
         id++;
-        // Don't forget to revoke the objectUrl when rejecting duplicate or removing object.
       }
     });
 });
@@ -98,57 +100,59 @@ window.addEventListener('load', function () {
 })();
 
 // Eventlistener for add descripton btn.
-function imgAddDescription(index) {
-  const btns = document.getElementsByClassName('add-description-btn');
-  const btn = btns[index];
-  btn.addEventListener('click', () => {
+function imgAddDescription(id) {
+  const galleryItem = document.getElementById(id);
+  const btn = galleryItem.getElementsByClassName('add-description-btn')[0];
+
+  btn.addEventListener('click', (event) => {
     const usrDescription = prompt('Enter a description about the image');
 
-    // TODO get the correct object. Can't use index as is.
-    imgsObjects[index].description = usrDescription;
+    imgsObjects[id].description = usrDescription;
   });
 }
 
-function igmShowDescription(index) {
-  const btns = document.getElementsByClassName('show-description');
-
-  const btn = btns[index];
+// Eventlistener för knappen show-description.
+function igmShowDescription(id) {
+  const galleryItem = document.getElementById(id);
+  const btn = galleryItem.getElementsByClassName('show-description')[0];
   btn.addEventListener('click', () => {
-    const galleryItem = document.getElementsByClassName('gallery-item')[index];
+    // const galleryItem = document.getElementsByClassName('gallery-item')[id];
     const imgObject = imgsObjects.find((obj) => {
       return obj.imgUrl == galleryItem.getElementsByTagName('img')[0].src;
     });
     console.log(
-      imgObject.description +
-        ', object id:' +
-        imgObject.id +
-        ', div id: ' +
-        index
+      imgObject.description + ', object id:' + imgObject.id + ', div id: ' + id
     );
   });
 }
 
-function imgDelete(index) {
-  const btns = document.getElementsByClassName('delete-img');
-  const btn = btns[index];
+function imgDelete(id) {
+  const galleryItem = document.getElementById(id);
+  const btn = galleryItem.getElementsByClassName('delete-img')[0];
   btn.addEventListener('click', () => {
-    const galleryItem = btn.parentElement;
-    console.log(btns);
     galleryItem.remove();
-    console.log(btns);
+    const id = galleryItem.getAttribute('id');
+    const imgObjectIndex = imgsObjects.findIndex((obj) => obj.id == id); // Not supported by IE!!
+    console.log(imgObjectIndex);
+    URL.revokeObjectURL(imgsObjects[imgObjectIndex].imgUrl);
+    imgsObjects.splice(imgObjectIndex, 1);
   });
 }
 
 // Create Gallery Item and all its children.
-function createGalleryItem(index) {
+function createGalleryItem(id, imgSrc) {
   //Create div with class of gallery-item.
   const galleryItem = document.createElement('div');
   galleryItem.setAttribute('class', 'gallery-item');
-  galleryItem.setAttribute('id', index);
+  galleryItem.setAttribute('id', id);
+
+  // Create img element and set src as imgSrc
+  const imgElement = document.createElement('img');
+  imgElement.src = imgSrc;
+  galleryItem.appendChild(imgElement);
 
   //Create button for adding description to the img.
   //Give it class name of 'add-description-btn'.
-  //Give it an index as id. Use when removing images.
   const addDescriptionBtn = document.createElement('button');
   addDescriptionBtn.textContent = 'Add Description';
   addDescriptionBtn.setAttribute('class', 'add-description-btn');

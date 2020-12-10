@@ -26,6 +26,8 @@ img:hover {
 
 .gallery-item .add-description-btn {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 30%;
 }
 
