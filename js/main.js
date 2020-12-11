@@ -1,32 +1,18 @@
 'use strict';
 
-document.getElementById('imgObj').addEventListener('click', () => {
-  // console.log(imgsObjects);
-
-  const galleryItems = document.getElementsByClassName('gallery-item');
-  // console.log(
-  //   galleryItems.indexOf((item) => {
-  //     item.id == 1;
-  //   })
-  // );
-  console.log(galleryItems);
-});
-
 let imgsObjects = []; // Holds objects for each uploaded image.
-let id = 0; // Simmulating unique id. Could be generated in backend.
 
 /**
  * Object for user uploaded images.
  * Holds information about the image such as name, last modified date and the igm description.
  */
 class ImgObject {
-  constructor(name, imgUrl, unix, date, description, id) {
+  constructor(name, imgUrl, unix, date, description) {
     this.imgUrl = imgUrl;
     this.unix = unix;
     this.date = date;
     this.description = description;
     this.name = name;
-    this.id = id;
   }
 }
 
@@ -45,7 +31,7 @@ window.addEventListener('load', function () {
 
         const imgSrc = URL.createObjectURL(this.files[0]); // Get img src as blob url
 
-        const galleryItem = createGalleryItem(id, imgSrc);
+        const galleryItem = createGalleryItem(imgSrc);
 
         const usrText = 'Image Description'; // Default img description.
 
@@ -56,21 +42,12 @@ window.addEventListener('load', function () {
             imgSrc,
             this.files[0].lastModified,
             this.files[0].lastModifiedDate,
-            usrText,
-            id
+            usrText
           )
         );
 
         document.getElementById('gallery').appendChild(galleryItem);
         document.getElementById('gallery').scrollIntoView();
-
-        const btnsIndex =
-          document.getElementsByClassName('add-description-btn').length - 1;
-        imgAddDescription(id);
-        igmShowDescription(id);
-        imgDelete(id);
-
-        id++;
       }
     });
 });
@@ -82,7 +59,7 @@ window.addEventListener('load', function () {
 (function () {
   const sortButton = document.getElementById('sort');
   sortButton.addEventListener('click', () => {
-    if (imgsObjects && imgsObjects.length > 0) {
+    if (imgsObjects && imgsObjects.length > 1) {
       sortButton.classList.toggle('rev');
       if (sortButton.className == 'iconButtons rev') {
         imgsObjects.sort((a, b) => (a.unix < b.unix ? 1 : -1));
@@ -101,51 +78,51 @@ window.addEventListener('load', function () {
 })();
 
 // Eventlistener for add descripton btn.
-function imgAddDescription(id) {
-  const galleryItem = document.getElementById(id);
-  const btn = galleryItem.getElementsByClassName('add-description-btn')[0];
-
+function imgAddDescription(btn) {
   btn.addEventListener('click', (event) => {
     const usrDescription = prompt('Enter a description about the image');
+    const imgIndex = imgsObjects.findIndex((object) => {
+      return (
+        object.imgUrl ===
+        event.target.parentElement.getElementsByTagName('img')[0].src
+      );
+    });
 
-    imgsObjects[id].description = usrDescription;
+    imgsObjects[imgIndex].description = usrDescription;
   });
 }
 
-// Eventlistener för knappen show-description.
-function igmShowDescription(id) {
-  const galleryItem = document.getElementById(id);
-  const btn = galleryItem.getElementsByClassName('show-description')[0];
-  btn.addEventListener('click', () => {
-    // const galleryItem = document.getElementsByClassName('gallery-item')[id];
+// Eventlistener for "show-description" button.
+function imgShowDescription(btn) {
+  btn.addEventListener('click', (event) => {
+    const galleryItem = event.target.parentElement;
     const imgObject = imgsObjects.find((obj) => {
       return obj.imgUrl == galleryItem.getElementsByTagName('img')[0].src;
     });
-    console.log(
-      imgObject.description + ', object id:' + imgObject.id + ', div id: ' + id
-    );
+    console.log(imgObject.description);
   });
 }
 
-function imgDelete(id) {
-  const galleryItem = document.getElementById(id);
-  const btn = galleryItem.getElementsByClassName('delete-img')[0];
-  btn.addEventListener('click', () => {
+function imgDelete(btn) {
+  btn.addEventListener('click', (event) => {
+    const galleryItem = event.target.parentElement;
+    const imgIndex = imgsObjects.findIndex((object) => {
+      return (
+        object.imgUrl ===
+        event.target.parentElement.getElementsByTagName('img')[0].src
+      );
+    });
+    URL.revokeObjectURL(imgsObjects[imgIndex].imgUrl);
+    imgsObjects.splice(imgIndex, 1);
     galleryItem.remove();
-    const id = galleryItem.getAttribute('id');
-    const imgObjectIndex = imgsObjects.findIndex((obj) => obj.id == id); // Not supported by IE!!
-    console.log(imgObjectIndex);
-    URL.revokeObjectURL(imgsObjects[imgObjectIndex].imgUrl);
-    imgsObjects.splice(imgObjectIndex, 1);
   });
 }
 
 // Create Gallery Item and all its children.
-function createGalleryItem(id, imgSrc) {
+function createGalleryItem(imgSrc) {
   //Create div with class of gallery-item.
   const galleryItem = document.createElement('div');
   galleryItem.setAttribute('class', 'gallery-item');
-  galleryItem.setAttribute('id', id);
 
   // Create img element and set src as imgSrc
   const imgElement = document.createElement('img');
@@ -158,17 +135,20 @@ function createGalleryItem(id, imgSrc) {
   addDescriptionBtn.textContent = 'Add Description';
   addDescriptionBtn.setAttribute('class', 'add-description-btn');
   galleryItem.appendChild(addDescriptionBtn);
+  imgAddDescription(addDescriptionBtn);
 
   //Primarily for debugging purposes. Reuse logic to show description later.
-  const showDescription = document.createElement('button');
-  showDescription.setAttribute('class', 'show-description');
-  showDescription.textContent = 'Show Description';
-  galleryItem.appendChild(showDescription);
+  const showDescriptionBtn = document.createElement('button');
+  showDescriptionBtn.setAttribute('class', 'show-description');
+  showDescriptionBtn.textContent = 'Show Description';
+  galleryItem.appendChild(showDescriptionBtn);
+  imgShowDescription(showDescriptionBtn);
 
   const deleteBtn = document.createElement('button');
   deleteBtn.setAttribute('class', 'delete-img');
   deleteBtn.textContent = 'Delete';
   galleryItem.appendChild(deleteBtn);
+  imgDelete(deleteBtn);
 
   return galleryItem;
 }
