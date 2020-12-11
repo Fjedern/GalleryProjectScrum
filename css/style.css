@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -5,20 +6,17 @@
 }
 
 #gallery {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
+  display:flex;
+  justify-content:center;
+  flex-direction:row;
+  flex-wrap:wrap;
+  flex-grow:1;
 }
 
 .gallery-item {
   position: relative;
 }
 
-.gallery-item > img {
-  width: 100%;
-  height: auto;
-  padding: 2px;
-}
 
 img:hover {
   box-shadow: 0 0 4px 1px rgba(0, 140, 186, 0.5);
@@ -41,22 +39,150 @@ img:hover {
 }
 
 @media only screen and (max-width: 500px) and (orientation: portrait) {
-  .gallery-item {
-    max-width: 100%;
-    height: auto;
-  }
+  .gallery-item{
+    margin-top:3px;
+    overflow:hidden;
+    justify-content:center;
+}
+.gallery-item>img{
+  width:100%;
+  height:auto;
+
+}
 }
 
 @media only screen and (min-width: 500px) and (max-width: 800px) and (orientation: landscape) {
-  .gallery-item {
-    max-width: 33%;
-    height: auto;
+  .gallery-item{
+    overflow:hidden;
+  
   }
+
+  .gallery-item>img{
+    height:150px;
+    width:auto;
+
+}
 }
 
 @media only screen and (min-width: 800px) {
+  .gallery-item>img{
+      height:250px;
+      width:auto;
+  
+      
+  }
+  
   .gallery-item {
-    max-width: 25%;
-    height: auto;
+    max-width:25%;
+    height:auto;
+    overflow:hidden;
+    margin:8px;
+    
+
   }
 }
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+#gallery{
+  display:flex;
+  justify-content:center;
+  flex-direction:row;
+  flex-wrap:wrap;
+  flex-grow:1;
+  
+  
+}
+
+
+.gallery-item {
+  position: relative;
+  
+}
+
+
+
+
+
+
+img:hover{
+  box-shadow: 0 0 4px 1px rgba(0, 140, 186, 0.5);
+}
+
+
+.gallery-item .add-description-btn {
+  position: absolute;
+  width:30%
+}
+
+.gallery-item .show-description {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width:30%;
+  
+}
+
+
+
+
+
+
+@media only screen and (max-width: 500px) and (orientation:portrait){
+
+.gallery-item{
+    margin-top:3px;
+    overflow:hidden;
+    justify-content:center;
+}
+.gallery-item>img{
+  width:100%;
+  height:auto;
+
+}
+
+
+}
+
+@media only screen and (min-width:500px) and (max-width: 800px) and (orientation:landscape){
+
+  .gallery-item{
+    overflow:hidden;
+  
+  }
+
+  .gallery-item>img{
+    height:150px;
+    width:auto;
+
+}
+  
+  
+  }
+
+  @media only screen and (min-width:800px){
+
+    .gallery-item>img{
+      height:250px;
+      width:auto;
+  
+      
+  }
+  
+  .gallery-item {
+    max-width:25%;
+    height:auto;
+    overflow:hidden;
+    margin:8px;
+    
+
+  }
+
+
+  }
+
