@@ -118,6 +118,15 @@ function imgDelete(btn) {
   });
 }
 
+function imgLike(btn) {
+  let isLiked = false;
+  btn.addEventListener('click', () => {
+    isLiked = !isLiked;
+    console.log(isLiked);
+    btn.classList.toggle('heartStyle');
+  });
+}
+
 // Create Gallery Item and all its children.
 function createGalleryItem(imgSrc) {
   //Create div with class of gallery-item.
@@ -149,6 +158,12 @@ function createGalleryItem(imgSrc) {
   deleteBtn.textContent = 'Delete';
   galleryItem.appendChild(deleteBtn);
   imgDelete(deleteBtn);
+
+  const likeButton = document.createElement('button');
+  likeButton.innerHTML = '<i class="far fa-heart"></i>'; // Use set attribute. No <i> tag.
+  likeButton.setAttribute('class', 'like');
+  imgLike(likeButton);
+  galleryItem.appendChild(likeButton);
 
   return galleryItem;
 }
