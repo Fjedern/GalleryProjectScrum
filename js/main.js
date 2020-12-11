@@ -132,7 +132,7 @@ function createGalleryItem(imgSrc) {
   //Create button for adding description to the img.
   //Give it class name of 'add-description-btn'.
   const addDescriptionBtn = document.createElement('button');
-  addDescriptionBtn.textContent = 'Add Description';
+  addDescriptionBtn.textContent = 'Add';
   addDescriptionBtn.setAttribute('class', 'add-description-btn');
   galleryItem.appendChild(addDescriptionBtn);
   imgAddDescription(addDescriptionBtn);
@@ -140,7 +140,7 @@ function createGalleryItem(imgSrc) {
   //Primarily for debugging purposes. Reuse logic to show description later.
   const showDescriptionBtn = document.createElement('button');
   showDescriptionBtn.setAttribute('class', 'show-description');
-  showDescriptionBtn.textContent = 'Show Description';
+  showDescriptionBtn.textContent = 'Show';
   galleryItem.appendChild(showDescriptionBtn);
   imgShowDescription(showDescriptionBtn);
 
