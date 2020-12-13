@@ -81,10 +81,9 @@ window.addEventListener('load', function () {
 function imgAddDescription(btn) {
   btn.addEventListener('click', (event) => {
     const usrDescription = prompt('Enter a description about the image');
-    const imgIndex = imgsObjects.findIndex((object) => {
+    const imgIndex = imgsObjects.findIndex(({ imgUrl }) => {
       return (
-        object.imgUrl ===
-        event.target.parentElement.getElementsByTagName('img')[0].src
+        imgUrl === event.target.parentElement.getElementsByTagName('img')[0].src
       );
     });
 
@@ -96,8 +95,8 @@ function imgAddDescription(btn) {
 function imgShowDescription(btn) {
   btn.addEventListener('click', (event) => {
     const galleryItem = event.target.parentElement;
-    const imgObject = imgsObjects.find((obj) => {
-      return obj.imgUrl == galleryItem.getElementsByTagName('img')[0].src;
+    const imgObject = imgsObjects.find(({ imgUrl }) => {
+      return imgUrl == galleryItem.getElementsByTagName('img')[0].src;
     });
     console.log(imgObject.description);
   });
@@ -106,10 +105,9 @@ function imgShowDescription(btn) {
 function imgDelete(btn) {
   btn.addEventListener('click', (event) => {
     const galleryItem = event.target.parentElement;
-    const imgIndex = imgsObjects.findIndex((object) => {
+    const imgIndex = imgsObjects.findIndex(({ imgUrl }) => {
       return (
-        object.imgUrl ===
-        event.target.parentElement.getElementsByTagName('img')[0].src
+        imgUrl === event.target.parentElement.getElementsByTagName('img')[0].src
       );
     });
     URL.revokeObjectURL(imgsObjects[imgIndex].imgUrl);
