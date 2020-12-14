@@ -27,8 +27,6 @@ window.addEventListener('load', function () {
     .querySelector('input[type="file"]')
     .addEventListener('change', function () {
       if (this.files && this.files[0]) {
-        // TODO: Move this to createGalleryItem function and remove imgElement array!
-
         const imgSrc = URL.createObjectURL(this.files[0]); // Get img src as blob url
 
         const galleryItem = createGalleryItem(imgSrc);
@@ -46,8 +44,9 @@ window.addEventListener('load', function () {
           )
         );
 
-        document.getElementById('gallery').appendChild(galleryItem);
-        document.getElementById('gallery').scrollIntoView();
+        const gallery = document.getElementById('gallery');
+        gallery.appendChild(galleryItem);
+        gallery.scrollIntoView();
       }
     });
 });
@@ -67,7 +66,7 @@ window.addEventListener('load', function () {
         imgsObjects.sort((a, b) => (a.unix > b.unix ? 1 : -1));
       }
 
-      const galleryImgs = document.getElementsByTagName('img');
+      const galleryImgs = document.getElementsByTagName('img'); // Will not work if we add additional img elements to the html code.
       if (galleryImgs.length > 0) {
         for (let i = 0; i < galleryImgs.length; i++) {
           galleryImgs[i].src = imgsObjects[i].imgUrl;
@@ -81,6 +80,8 @@ window.addEventListener('load', function () {
 function imgAddDescription(btn) {
   btn.addEventListener('click', (event) => {
     const usrDescription = prompt('Enter a description about the image');
+
+    // Make this function outside!
     const imgIndex = imgsObjects.findIndex(({ imgUrl }) => {
       return (
         imgUrl === event.target.parentElement.getElementsByTagName('img')[0].src
