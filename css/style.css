@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+
 
 
 .gallery-item >img {
@@ -38,8 +43,10 @@ img:hover {
 
 .gallery-item .show-description {
   position: relative;
-
-  left: 0;
+  width: 30%;
+}
+.gallery-item .delete-img {
+  position: relative;
   width: 30%;
 }
 
@@ -104,4 +111,3 @@ img:hover {
     
   }
 }
-

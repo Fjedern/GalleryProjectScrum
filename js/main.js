@@ -1,21 +1,19 @@
-
 "use strict";
 
-let imgsElements = [];
-let imgsObjects = [];
+let imgsObjects = []; // Holds objects for each uploaded image.
+let totalLikes = 0;
 
 /**
  * Object for user uploaded images.
  * Holds information about the image such as name, last modified date and the igm description.
  */
 class ImgObject {
-  constructor(name, imgUrl, unix, date, description, id) {
+  constructor(name, imgUrl, unix, date, description) {
     this.imgUrl = imgUrl;
     this.unix = unix;
     this.date = date;
     this.description = description;
     this.name = name;
-    this.id = id;
   }
 }
 
@@ -30,43 +28,26 @@ window.addEventListener("load", function () {
     .querySelector('input[type="file"]')
     .addEventListener("change", function () {
       if (this.files && this.files[0]) {
-        const galleryItem = createGalleryItem();
+        const imgSrc = URL.createObjectURL(this.files[0]); // Get img src as blob url
 
-        const imgElement = document.createElement('img');
-        imgElement.src = URL.createObjectURL(this.files[0]); // set src to blob url
+        const galleryItem = createGalleryItem(imgSrc);
 
-        imgsElements.push(imgElement);
-
-        const usrText = "Image Description"; // Simulate img description.
-
-        // Used for setting id of "addescriptoion button" and imgObjects.
-        const index = document.getElementsByClassName('add-description-btn')
-          .length;
+        const usrText = "Image Description"; // Default img description.
 
         // Create new ImgObject and sotre it in imgsObjects array.
         imgsObjects.push(
           new ImgObject(
             this.files[0].name,
-            imgElement.src,
+            imgSrc,
             this.files[0].lastModified,
             this.files[0].lastModifiedDate,
-            usrText,
-            index
+            usrText
           )
         );
-            
-        // Append the newly created img element to the div called galleryItem.
 
-              
-        galleryItem.appendChild(imgsElements[imgsElements.length - 1]);
-        document.getElementById('gallery').appendChild(galleryItem);
-        document.getElementById('gallery').scrollIntoView();
-
-        imgAddDescription(index);
-        igmShowDescription(index);
-        likeButton(index);
-        // Don't forget to revoke the objectUrl when rejecting duplicate or removing object.
-            
+        const gallery = document.getElementById("gallery");
+        gallery.appendChild(galleryItem);
+        gallery.scrollIntoView();
       }
     });
 });
@@ -76,17 +57,17 @@ window.addEventListener("load", function () {
  * @type {html-element} sortButton - Html Button with id sortButton.
  */
 (function () {
-  const sortButton = document.getElementById('sort');
-  sortButton.addEventListener('click', () => {
-    if (imgsObjects && imgsObjects.length > 0) {
-      sortButton.classList.toggle('rev');
-      if (sortButton.className == 'iconButtons rev') {
+  const sortButton = document.getElementById("sort");
+  sortButton.addEventListener("click", () => {
+    if (imgsObjects && imgsObjects.length > 1) {
+      sortButton.classList.toggle("rev");
+      if (sortButton.className == "iconButtons rev") {
         imgsObjects.sort((a, b) => (a.unix < b.unix ? 1 : -1));
       } else {
         imgsObjects.sort((a, b) => (a.unix > b.unix ? 1 : -1));
       }
 
-      const galleryImgs = document.getElementsByTagName('img');
+      const galleryImgs = document.getElementsByTagName("img"); // Will not work if we add additional img elements to the html code.
       if (galleryImgs.length > 0) {
         for (let i = 0; i < galleryImgs.length; i++) {
           galleryImgs[i].src = imgsObjects[i].imgUrl;
@@ -97,86 +78,94 @@ window.addEventListener("load", function () {
 })();
 
 // Eventlistener for add descripton btn.
-function imgAddDescription(index) {
-  const btns = document.getElementsByClassName('add-description-btn');
-  const btn = btns[index];
-  btn.addEventListener('click', () => {
-    const id = btn.getAttribute("id");
-    const usrDescription = prompt('Enter a description about the image');
-    imgsObjects[id].description = usrDescription;
+function imgAddDescription(btn) {
+  btn.addEventListener("click", (event) => {
+    const usrDescription = prompt("Enter a description about the image");
+
+    // Make this function outside!
+    const imgIndex = imgsObjects.findIndex(({ imgUrl }) => {
+      return (
+        imgUrl === event.target.parentElement.getElementsByTagName("img")[0].src
+      );
+    });
+
+    imgsObjects[imgIndex].description = usrDescription;
   });
 }
 
-function igmShowDescription(index) {
-  const btns = document.getElementsByClassName('show-description');
-
-  const btn = btns[index];
-  btn.addEventListener('click', () => {
-    const id = btn.getAttribute('id');
-    console.log(
-      imgsObjects[id].description +
-        " index: " +
-        index +
-        " object id " +
-        imgsObjects[id].id
-    );
+// Eventlistener for "show-description" button.
+function imgShowDescription(btn) {
+  btn.addEventListener("click", (event) => {
+    const galleryItem = event.target.parentElement;
+    const imgObject = imgsObjects.find(({ imgUrl }) => {
+      return imgUrl == galleryItem.getElementsByTagName("img")[0].src;
+    });
+    console.log(imgObject.description);
   });
 }
 
-function likeButton(index) {
-  const btns = document.getElementsByClassName('like');
-  const btn = btns[index];
+function imgDelete(btn) {
+  btn.addEventListener("click", (event) => {
+    const galleryItem = event.target.parentElement;
+    const imgIndex = imgsObjects.findIndex(({ imgUrl }) => {
+      return (
+        imgUrl === event.target.parentElement.getElementsByTagName("img")[0].src
+      );
+    });
+    URL.revokeObjectURL(imgsObjects[imgIndex].imgUrl);
+    imgsObjects.splice(imgIndex, 1);
+    galleryItem.remove();
+  });
+}
+
+function imgLike(btn) {
   let isLiked = false;
-  btn.addEventListener('click', () => {
-    const id = btn.getAttribute("id");
+  btn.addEventListener("click", () => {
     isLiked = !isLiked;
-    console.log('liked= ' + getlikes() + index);
-    toggleLike(index);
-    function getlikes() {
-      return isLiked;
-    }
+    console.log(isLiked);
+    if(isLiked ? totalLikes++ : totalLikes--);
+    document.getElementById("heartCounter").innerHTML = totalLikes;
+    btn.classList.toggle("heartStyle");
   });
 }
-function toggleLike(index) {
-  document.getElementById(index).classList.toggle('heartStyle');
-}
-// Create Gallery Item and all its children.
-function createGalleryItem() {
-  //Check how many gallery items there are in the DOM.
-  const index = document.getElementsByClassName('gallery-item').length;
 
+// Create Gallery Item and all its children.
+function createGalleryItem(imgSrc) {
   //Create div with class of gallery-item.
-  const galleryItem = document.createElement('div');
-  galleryItem.setAttribute('class', 'gallery-item');
+  const galleryItem = document.createElement("div");
+  galleryItem.setAttribute("class", "gallery-item");
+
+  // Create img element and set src as imgSrc
+  const imgElement = document.createElement("img");
+  imgElement.src = imgSrc;
+  galleryItem.appendChild(imgElement);
 
   //Create button for adding description to the img.
   //Give it class name of 'add-description-btn'.
-  //Give it an index as id. Use when removing images.
-
-  const likeButton = document.createElement('button');
-  likeButton.innerHTML = '<i class="far fa-heart"></i>';
-  likeButton.setAttribute('class', 'like');
-  likeButton.setAttribute('id', index);
-  galleryItem.appendChild(likeButton);
-
-  const addDescriptionBtn = document.createElement('button');
-  addDescriptionBtn.textContent = 'Add Description';
-  addDescriptionBtn.setAttribute('class', 'add-description-btn');
-  addDescriptionBtn.setAttribute('id', index);
+  const addDescriptionBtn = document.createElement("button");
+  addDescriptionBtn.textContent = "Add";
+  addDescriptionBtn.setAttribute("class", "add-description-btn");
   galleryItem.appendChild(addDescriptionBtn);
+  imgAddDescription(addDescriptionBtn);
 
   //Primarily for debugging purposes. Reuse logic to show description later.
-  const showDescription = document.createElement('button');
-  showDescription.setAttribute('class', 'show-description');
-  showDescription.textContent = 'Show Description';
-  showDescription.setAttribute('id', index);
-  galleryItem.appendChild(showDescription);
+  const showDescriptionBtn = document.createElement("button");
+  showDescriptionBtn.setAttribute("class", "show-description");
+  showDescriptionBtn.textContent = "Show";
+  galleryItem.appendChild(showDescriptionBtn);
+  imgShowDescription(showDescriptionBtn);
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.setAttribute("class", "delete-img");
+  deleteBtn.textContent = "Delete";
+  galleryItem.appendChild(deleteBtn);
+  imgDelete(deleteBtn);
+
+  const likeButton = document.createElement("button");
+  likeButton.innerHTML = '<i class="far fa-heart"></i>'; // Use set attribute. No <i> tag.
+  likeButton.setAttribute("class", "like");
+  imgLike(likeButton);
+  galleryItem.appendChild(likeButton);
 
   return galleryItem;
 }
-
-
-
-
-
-
