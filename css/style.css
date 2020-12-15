@@ -9,24 +9,19 @@ html {
 }
 
 
+#gallery{
+  margin-top:5px;
 
+}
 
+.gallery-item{
+  position:relative;
+
+}
 .gallery-item >img {
-  
-  position: relative;
   width: 100% !important;
   height: auto !important;
   
-}
-
-.gallery-item>img{
-  margin-top:5px;
-  width:100%;
-  height:auto;
-      
-  
-  
-      
 }
 
 
@@ -35,19 +30,32 @@ img:hover {
   opacity: 0.5;
 }
 
-.gallery-item .add-description-btn {
-  position: relative;
+.add-description-btn {
+  position: absolute;
   width: 30%;
+  left:0;
+  bottom:5px;
   
 }
 
-.gallery-item .show-description {
-  position: relative;
+.show-description {
+  position: absolute;
   width: 30%;
+  left:0;
+  top:0;
 }
-.gallery-item .delete-img {
-  position: relative;
+.delete-img {
+  position: absolute;
   width: 30%;
+  right:0;
+  top:0;
+}
+
+.like{
+  position:absolute;
+  right:0;
+  bottom:5px;
+
 }
 
 .heartStyle {
