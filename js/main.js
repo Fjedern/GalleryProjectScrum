@@ -1,6 +1,7 @@
 'use strict';
 
 let imgsObjects = []; // Holds objects for each uploaded image.
+let albums = []; // Add albums as objects with an albumName and an array of images as properties.
 
 /**
  * Object for user uploaded images.
@@ -13,6 +14,13 @@ class ImgObject {
     this.date = date;
     this.description = description;
     this.name = name;
+  }
+}
+
+class Album {
+  constructor(albumName) {
+    this.albumName = albumName;
+    this.images = [];
   }
 }
 
@@ -73,6 +81,23 @@ window.addEventListener('load', function () {
         }
       }
     }
+  });
+})();
+
+//Handle for albums
+(function () {
+  document.getElementById('add-album').addEventListener('click', () => {
+    const albumName = prompt('Name your album');
+    albums.push(new Album(albumName));
+
+    const navList = document.getElementById('nav-list');
+    const navItem = document.createElement('li');
+    navItem.setAttribute('class', 'nav-item');
+    const itemLink = document.createElement('a');
+    itemLink.innerHTML = albumName;
+
+    navItem.append(itemLink);
+    navList.appendChild(navItem);
   });
 })();
 
