@@ -1,7 +1,8 @@
 'use strict';
 
 let imgsObjects = []; // Holds objects for each uploaded image.
-let albums = []; // Add albums as objects with an albumName and an array of images as properties.
+let totalLikes = 0;
+let albums = ['All', 'Liked'];
 
 /**
  * Object for user uploaded images.
@@ -14,13 +15,7 @@ class ImgObject {
     this.date = date;
     this.description = description;
     this.name = name;
-  }
-}
-
-class Album {
-  constructor(albumName) {
-    this.albumName = albumName;
-    this.images = [];
+    this.album = ['all'];
   }
 }
 
@@ -59,6 +54,8 @@ window.addEventListener('load', function () {
     });
 });
 
+// Eventlisteners
+
 /**
  * Event listener for sort button. Sorts images conatined in imgsObjects and displays them in new order on screen.
  * @type {html-element} sortButton - Html Button with id sortButton.
@@ -88,36 +85,39 @@ window.addEventListener('load', function () {
 (function () {
   document.getElementById('add-album').addEventListener('click', () => {
     const albumName = prompt('Name your album');
-    albums.push(new Album(albumName));
+    if (albumName) {
+      const navList = document.getElementById('nav-list');
+      const navItem = document.createElement('li');
+      navItem.setAttribute('class', 'nav-item');
+      const itemLink = document.createElement('a');
+      itemLink.setAttribute('href', '#');
+      itemLink.innerHTML = albumName;
 
-    const navList = document.getElementById('nav-list');
-    const navItem = document.createElement('li');
-    navItem.setAttribute('class', 'nav-item');
-    const itemLink = document.createElement('a');
-    itemLink.innerHTML = albumName;
-
-    navItem.append(itemLink);
-    navList.appendChild(navItem);
+      navItem.append(itemLink);
+      navList.appendChild(navItem);
+      albums.push(albumName);
+    }
   });
 })();
+
+function getObjectIndex(src) {
+  return imgsObjects.findIndex(({ imgUrl }) => {
+    return imgUrl === src;
+  });
+}
 
 // Eventlistener for add descripton btn.
 function imgAddDescription(btn) {
   btn.addEventListener('click', (event) => {
     const usrDescription = prompt('Enter a description about the image');
 
-    // Make this function outside!
-    const imgIndex = imgsObjects.findIndex(({ imgUrl }) => {
-      return (
-        imgUrl === event.target.parentElement.getElementsByTagName('img')[0].src
-      );
-    });
-
+    const imgIndex = getObjectIndex(
+      event.target.parentElement.getElementsByTagName('img')[0].src
+    );
     imgsObjects[imgIndex].description = usrDescription;
   });
 }
 
-// Eventlistener for "show-description" button.
 function imgShowDescription(btn) {
   btn.addEventListener('click', (event) => {
     const galleryItem = event.target.parentElement;
@@ -131,11 +131,11 @@ function imgShowDescription(btn) {
 function imgDelete(btn) {
   btn.addEventListener('click', (event) => {
     const galleryItem = event.target.parentElement;
-    const imgIndex = imgsObjects.findIndex(({ imgUrl }) => {
-      return (
-        imgUrl === event.target.parentElement.getElementsByTagName('img')[0].src
-      );
-    });
+    const imgIndex = getObjectIndex(
+      event.target.parentElement.getElementsByTagName('img')[0].src
+    );
+
+    // Check if object is Liked. If so remove from totalLikes before removing object.
     URL.revokeObjectURL(imgsObjects[imgIndex].imgUrl);
     imgsObjects.splice(imgIndex, 1);
     galleryItem.remove();
@@ -144,12 +144,44 @@ function imgDelete(btn) {
 
 function imgLike(btn) {
   let isLiked = false;
-  btn.addEventListener('click', () => {
+  btn.addEventListener('click', (event) => {
     isLiked = !isLiked;
-    console.log(isLiked);
+    const objIndex = getObjectIndex(
+      event.target.parentElement.parentElement.getElementsByTagName('img')[0]
+        .src
+    );
+    if (isLiked) {
+      totalLikes++;
+      imgsObjects[objIndex].album.push('Liked');
+    } else {
+      totalLikes--;
+      const index = imgsObjects[objIndex].album.indexOf('Liked');
+      if (index > -1) {
+        imgsObjects[objIndex].album.splice(index, 1);
+      }
+    }
+    document.getElementById('heartCounter').innerHTML = totalLikes;
     btn.classList.toggle('heartStyle');
   });
 }
+
+document.getElementById('heartCounter').addEventListener('click', () => {
+  const galleryItems = document.getElementsByClassName('gallery-item');
+  const gallery = document.getElementById('gallery');
+  for (let { album, imgUrl } of imgsObjects) {
+    if (album.indexOf('Liked') > -1) {
+      const galleryItem = createGalleryItem(imgUrl);
+      gallery.appendChild(galleryItem);
+    }
+  }
+});
+
+function imgAddToAlbum(btn) {
+  btn.addEventListener('click', () => {
+    console.log('ADD TO ALBUM');
+  });
+}
+//Eventlisteners End
 
 // Create Gallery Item and all its children.
 function createGalleryItem(imgSrc) {
@@ -188,6 +220,11 @@ function createGalleryItem(imgSrc) {
   likeButton.setAttribute('class', 'like');
   imgLike(likeButton);
   galleryItem.appendChild(likeButton);
+
+  const addToAlbumBtn = document.createElement('button');
+  addToAlbumBtn.setAttribute('class', 'fas fa-plus');
+  imgAddToAlbum(addToAlbumBtn);
+  galleryItem.appendChild(addToAlbumBtn);
 
   return galleryItem;
 }
