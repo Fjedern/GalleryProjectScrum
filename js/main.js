@@ -54,8 +54,10 @@ window.addEventListener("load", function () {
             index
           )
         );
-
+            
         // Append the newly created img element to the div called galleryItem.
+
+              
         galleryItem.appendChild(imgsElements[imgsElements.length - 1]);
         document.getElementById('gallery').appendChild(galleryItem);
         document.getElementById('gallery').scrollIntoView();
@@ -64,6 +66,7 @@ window.addEventListener("load", function () {
         igmShowDescription(index);
         likeButton(index);
         // Don't forget to revoke the objectUrl when rejecting duplicate or removing object.
+            
       }
     });
 });
@@ -171,4 +174,9 @@ function createGalleryItem() {
 
   return galleryItem;
 }
+
+
+
+
+
 
