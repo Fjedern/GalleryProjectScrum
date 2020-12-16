@@ -97,7 +97,7 @@ function imgAddDescription(btn) {
     // Make this function outside!
     const imgIndex = imgsObjects.findIndex(({ imgUrl }) => {
       return (
-        imgUrl === event.target.parentElement.getElementsByTagName("img")[0].src
+        imgUrl === event.target.parentElement.parentElement.parentElement.getElementsByTagName("img")[0].src
       );
     });
 
@@ -108,7 +108,7 @@ function imgAddDescription(btn) {
 // Eventlistener for "show-description" button.
 function imgShowDescription(btn) {
   btn.addEventListener("click", (event) => {
-    const galleryItem = event.target.parentElement;
+    const galleryItem = event.target.parentElement.parentElement.parentElement;
     const imgObject = imgsObjects.find(({ imgUrl }) => {
       return imgUrl == galleryItem.getElementsByTagName("img")[0].src;
     });
@@ -118,15 +118,16 @@ function imgShowDescription(btn) {
 
 function imgDelete(btn) {
   btn.addEventListener("click", (event) => {
-    const galleryItem = event.target.parentElement;
+    const galleryItem = event.target.parentElement.parentElement.parentElement;
     const imgIndex = imgsObjects.findIndex(({ imgUrl }) => {
       return (
-        imgUrl === event.target.parentElement.getElementsByTagName("img")[0].src
+        imgUrl === event.target.parentElement.parentElement.parentElement.getElementsByTagName("img")[0].src
       );
     });
     URL.revokeObjectURL(imgsObjects[imgIndex].imgUrl);
     imgsObjects.splice(imgIndex, 1);
     galleryItem.remove();
+    
   });
 }
 
@@ -159,6 +160,10 @@ function createGalleryItem(imgSrc) {
   //Create button for adding description to the img.
   //Give it class name of 'add-description-btn'.
   const addDescriptionBtn = createIcon('<i class="far fa-comment"></i>', "add-description-btn");
+  // const addDescriptionBtn = document.createElement("a");
+  // addDescriptionBtn.innerHTML = '<i class="far fa-comment"></i>';
+  // element.classList.add("add-description-btn", "imgButton");
+  // buttonBox.appendChild(addDescriptionBtn);
   imgAddDescription(addDescriptionBtn);
 
   //Primarily for debugging purposes. Reuse logic to show description later.
@@ -174,7 +179,7 @@ function createGalleryItem(imgSrc) {
   function createIcon(icon, className){
     const element = document.createElement("a");
     element.innerHTML = icon;
-    element.classList.add("imgButton", className);
+    element.classList.add(className, "imgButton");
     buttonBox.appendChild(element);
 
     return element;
