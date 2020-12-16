@@ -52,7 +52,7 @@ window.addEventListener("load", function () {
     });
 });
 
-quickTest();
+//quickTest();
 
 function quickTest() {
   document
