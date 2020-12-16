@@ -87,21 +87,6 @@ function displayImages() {
   // TODO: Create galleryItems for all the images in the album.
   // TODO: Display images.
 
-  // const galleryItems = document.getElementsByClassName('gallery-item');
-  // console.log(galleryItems);
-  // for (let i = 0; i < galleryItems.length; i++) {
-  //   galleryItems[i].remove();
-  // }
-  // console.log(galleryItems);
-
-  // const album = imgsObjects.filter((object) => {
-  //   return object.album.includes(activeAlbum);
-  // });
-
-  // album.map(({ imgUrl }) => {
-  //   createGalleryItem(imgUrl);
-  // });
-
   const galleryImgs = document.getElementsByTagName('img'); // Will not work if we add additional img elements to the html code.
 
   if (galleryImgs.length > 0) {
@@ -141,7 +126,9 @@ function imgAddDescription(btn) {
     const usrDescription = prompt('Enter a description about the image');
 
     const imgIndex = getObjectIndex(
-      event.target.parentElement.getElementsByTagName('img')[0].src
+      event.target.parentElement.parentElement.parentElement.getElementsByTagName(
+        'img'
+      )[0].src
     );
     imgsObjects[imgIndex].description = usrDescription;
   });
@@ -149,7 +136,7 @@ function imgAddDescription(btn) {
 
 function imgShowDescription(btn) {
   btn.addEventListener('click', (event) => {
-    const galleryItem = event.target.parentElement;
+    const galleryItem = event.target.parentElement.parentElement.parentElement;
     const imgObject = imgsObjects.find(({ imgUrl }) => {
       return imgUrl == galleryItem.getElementsByTagName('img')[0].src;
     });
@@ -159,9 +146,11 @@ function imgShowDescription(btn) {
 
 function imgDelete(btn) {
   btn.addEventListener('click', (event) => {
-    const galleryItem = event.target.parentElement;
+    const galleryItem = event.target.parentElement.parentElement.parentElement;
     const imgIndex = getObjectIndex(
-      event.target.parentElement.getElementsByTagName('img')[0].src
+      event.target.parentElement.parentElement.parentElement.getElementsByTagName(
+        'img'
+      )[0].src
     );
 
     // Check if image is "Liked". Remove Like and update heartCounter if it is.
@@ -181,8 +170,9 @@ function imgLike(btn) {
   btn.addEventListener('click', (event) => {
     isLiked = !isLiked;
     const objIndex = getObjectIndex(
-      event.target.parentElement.parentElement.getElementsByTagName('img')[0]
-        .src
+      event.target.parentElement.parentElement.parentElement.getElementsByTagName(
+        'img'
+      )[0].src
     );
     if (isLiked) {
       totalLikes++;
@@ -210,13 +200,6 @@ document.getElementById('heartCounter').addEventListener('click', () => {
   //const galleryItems = document.getElementsByClassName('gallery-item');
   const gallery = document.getElementById('gallery');
   setActiveAlbum('Liked');
-
-  // for (let { album, imgUrl } of imgsObjects) {
-  //   if (album.indexOf('Liked') > -1) {
-  //     const galleryItem = createGalleryItem(imgUrl);
-  //     gallery.appendChild(galleryItem);
-  //   }
-  // }
 });
 
 function imgAddToAlbum(btn) {
@@ -226,6 +209,63 @@ function imgAddToAlbum(btn) {
 }
 //Eventlisteners End
 
+// Create Gallery Item and all its children.
+function createGalleryItem(imgSrc) {
+  //Create div with class of gallery-item.
+  const galleryItem = document.createElement('div');
+  galleryItem.setAttribute('class', 'gallery-item');
+
+  // Create img element and set src as imgSrc
+  const imgElement = document.createElement('img');
+  imgElement.src = imgSrc;
+  galleryItem.appendChild(imgElement);
+
+  const buttonBox = document.createElement('div');
+  buttonBox.setAttribute('class', 'buttonBox');
+  galleryItem.appendChild(buttonBox);
+
+  //Create button for adding description to the img.
+  //Give it class name of 'add-description-btn'.
+  const addDescriptionBtn = createIcon(
+    '<i class="far fa-comment"></i>',
+    'add-description-btn'
+  );
+  imgAddDescription(addDescriptionBtn);
+
+  //Primarily for debugging purposes. Reuse logic to show description later.
+  const showDescriptionBtn = createIcon(
+    '<i class="fas fa-flask"></i>',
+    'show-description'
+  );
+  imgShowDescription(showDescriptionBtn);
+
+  const deleteBtn = createIcon(
+    '<i class="far fa-trash-alt"></i>',
+    'delete-img'
+  );
+  imgDelete(deleteBtn);
+
+  const likeButton = createIcon('<i class="far fa-heart"></i>', 'like');
+  imgLike(likeButton);
+
+  const addToAlbumBtn = createIcon(
+    '<i class="fas fa-plus"></i>',
+    'add-to-album'
+  );
+  imgAddToAlbum(addToAlbumBtn);
+
+  function createIcon(icon, className) {
+    const element = document.createElement('a');
+    element.innerHTML = icon;
+    element.classList.add(className, 'imgButton');
+    buttonBox.appendChild(element);
+
+    return element;
+  }
+  return galleryItem;
+}
+
+/*
 // Create Gallery Item and all its children.
 function createGalleryItem(imgSrc) {
   //Create div with class of gallery-item.
@@ -271,3 +311,4 @@ function createGalleryItem(imgSrc) {
 
   return galleryItem;
 }
+*/

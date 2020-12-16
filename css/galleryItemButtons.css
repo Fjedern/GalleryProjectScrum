@@ -1,0 +1,41 @@
+.buttonBox {
+    /* display: none;
+    opacity: 0; */
+
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    font-size: 1.2em;
+    color: white;
+
+    
+}
+
+/* .gallery-item img:hover + .buttonBox{
+    display: block;
+    opacity: 1;
+    animation: in 1s;
+} */
+
+.imgButton {
+    margin: 5px;
+    transition: 0.3s;
+}
+
+.imgButton:hover {
+    opacity: 0.6;
+}
+
+.heartStyle {
+    color: red;
+}
+
+@keyframes in {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+@keyframes out {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
