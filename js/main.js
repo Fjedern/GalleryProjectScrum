@@ -2,7 +2,7 @@
 
 let imgsObjects = []; // Holds objects for each uploaded image.
 let totalLikes = 0;
-let albums = ['All', 'Liked'];
+let activeAlbum = null;
 
 /**
  * Object for user uploaded images.
@@ -15,7 +15,7 @@ class ImgObject {
     this.date = date;
     this.description = description;
     this.name = name;
-    this.album = ['all'];
+    this.album = ['All'];
   }
 }
 
@@ -63,6 +63,10 @@ window.addEventListener('load', function () {
 (function () {
   const sortButton = document.getElementById('sort');
   sortButton.addEventListener('click', () => {
+    if (activeAlbum === null) {
+      setActiveAlbum('All');
+    }
+
     if (imgsObjects && imgsObjects.length > 1) {
       sortButton.classList.toggle('rev');
       if (sortButton.className == 'iconButtons rev') {
@@ -71,15 +75,41 @@ window.addEventListener('load', function () {
         imgsObjects.sort((a, b) => (a.unix > b.unix ? 1 : -1));
       }
 
-      const galleryImgs = document.getElementsByTagName('img'); // Will not work if we add additional img elements to the html code.
-      if (galleryImgs.length > 0) {
-        for (let i = 0; i < galleryImgs.length; i++) {
-          galleryImgs[i].src = imgsObjects[i].imgUrl;
-        }
-      }
+      displayImages();
     }
   });
 })();
+
+function displayImages() {
+  // TODO:Check if current album is the same as the previous album. If so: display the new images in new order.
+  // Else:
+  // TODO: Remove all galleryItems.
+  // TODO: Create galleryItems for all the images in the album.
+  // TODO: Display images.
+
+  // const galleryItems = document.getElementsByClassName('gallery-item');
+  // console.log(galleryItems);
+  // for (let i = 0; i < galleryItems.length; i++) {
+  //   galleryItems[i].remove();
+  // }
+  // console.log(galleryItems);
+
+  // const album = imgsObjects.filter((object) => {
+  //   return object.album.includes(activeAlbum);
+  // });
+
+  // album.map(({ imgUrl }) => {
+  //   createGalleryItem(imgUrl);
+  // });
+
+  const galleryImgs = document.getElementsByTagName('img'); // Will not work if we add additional img elements to the html code.
+
+  if (galleryImgs.length > 0) {
+    for (let i = 0; i < imgsObjects.length; i++) {
+      galleryImgs[i].src = imgsObjects[i].imgUrl;
+    }
+  }
+}
 
 //Handle for albums
 (function () {
@@ -95,7 +125,6 @@ window.addEventListener('load', function () {
 
       navItem.append(itemLink);
       navList.appendChild(navItem);
-      albums.push(albumName);
     }
   });
 })();
@@ -135,7 +164,12 @@ function imgDelete(btn) {
       event.target.parentElement.getElementsByTagName('img')[0].src
     );
 
-    // Check if object is Liked. If so remove from totalLikes before removing object.
+    // Check if image is "Liked". Remove Like and update heartCounter if it is.
+    if (imgsObjects[imgIndex].album.includes('Liked')) {
+      totalLikes--;
+      document.getElementById('heartCounter').innerHTML = totalLikes;
+    }
+
     URL.revokeObjectURL(imgsObjects[imgIndex].imgUrl);
     imgsObjects.splice(imgIndex, 1);
     galleryItem.remove();
@@ -165,15 +199,24 @@ function imgLike(btn) {
   });
 }
 
+function setActiveAlbum(albumName) {
+  activeAlbum = albumName;
+  // activeAlbum.imageObjects = imgsObjects.filter((object) => {
+  //   return object.album.includes(albumName);
+  // });
+}
+
 document.getElementById('heartCounter').addEventListener('click', () => {
-  const galleryItems = document.getElementsByClassName('gallery-item');
+  //const galleryItems = document.getElementsByClassName('gallery-item');
   const gallery = document.getElementById('gallery');
-  for (let { album, imgUrl } of imgsObjects) {
-    if (album.indexOf('Liked') > -1) {
-      const galleryItem = createGalleryItem(imgUrl);
-      gallery.appendChild(galleryItem);
-    }
-  }
+  setActiveAlbum('Liked');
+
+  // for (let { album, imgUrl } of imgsObjects) {
+  //   if (album.indexOf('Liked') > -1) {
+  //     const galleryItem = createGalleryItem(imgUrl);
+  //     gallery.appendChild(galleryItem);
+  //   }
+  // }
 });
 
 function imgAddToAlbum(btn) {
