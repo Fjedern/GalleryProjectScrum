@@ -30,37 +30,7 @@ img:hover {
   opacity: 0.5;
 }
 
-.add-description-btn {
-  position: absolute;
-  width: 30%;
-  left:0;
-  bottom:5px;
-  
-}
 
-.show-description {
-  position: absolute;
-  width: 30%;
-  left:0;
-  top:0;
-}
-.delete-img {
-  position: absolute;
-  width: 30%;
-  right:0;
-  top:0;
-}
-
-.like{
-  position:absolute;
-  right:0;
-  bottom:5px;
-
-}
-
-.heartStyle {
-  color: red;
-}
 
 /* Most smartphones */
 @media only screen and (min-width: 320px) and (max-width: 480px) and (orientation: portrait) {
