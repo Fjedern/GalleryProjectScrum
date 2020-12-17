@@ -126,7 +126,7 @@ function displayImages() {
       const navItem = document.createElement('li');
       navItem.setAttribute('id', albumName);
       navItem.setAttribute('class', 'nav-item');
-      const itemButton = document.createElement('button');
+      const itemButton = document.createElement('a');
       // itemLink.setAttribute('href', '#');
       itemButton.textContent = albumName;
       setAlbumBtn(itemButton);
@@ -269,6 +269,60 @@ function createGalleryItem(imgSrc) {
   buttonBox.setAttribute('class', 'buttonBox');
   galleryItem.appendChild(buttonBox);
 
+  //------------------------------------------------------------------------
+  // Creating dropdown menu for albums in gallery-item.
+  const addToAlbumDiv = document.createElement('div');
+  addToAlbumDiv.setAttribute('class', 'dropdown');
+  const addToAlbumIcon = document.createElement('a');
+  addToAlbumIcon.setAttribute('class', 'fas fa-plus dropdown-btn');
+  addToAlbumDiv.appendChild(addToAlbumIcon);
+
+  const dropDownContent = document.createElement('div');
+  dropDownContent.setAttribute('class', 'dropdown-content');
+  addToAlbumDiv.appendChild(dropDownContent);
+
+  addToAlbumIcon.addEventListener('click', () => {
+    const albums = Array.from(
+      document.getElementById('nav-list').getElementsByTagName('a')
+    );
+    albums.splice(0, 1);
+
+    const dropDownContentAnchors = Array.from(
+      dropDownContent.getElementsByTagName('a')
+    );
+    if (albums.length > 0) {
+      dropDownContent.classList.toggle('show');
+      if (dropDownContent.className != 'dropdown-content') {
+        for (let i = 0; i < albums.length; i++) {
+          if (
+            !dropDownContentAnchors[i] ||
+            dropDownContentAnchors[i].textContent != albums[i].textContent
+          ) {
+            const dropDownItem = document.createElement('a');
+            dropDownItem.textContent = albums[i].textContent;
+            dropDownContent.appendChild(dropDownItem);
+            dropDownItem.addEventListener('click', (event) => {
+              const objIndex = getObjectIndex(
+                event.target
+                  .closest('.gallery-item')
+                  .getElementsByTagName('img')[0].src
+              );
+              dropDownContent.classList.toggle('show');
+              if (
+                !imgsObjects[objIndex].album.includes(dropDownItem.textContent)
+              ) {
+                imgsObjects[objIndex].album.push(dropDownItem.textContent);
+              }
+            });
+          }
+        }
+      }
+    }
+  });
+
+  buttonBox.appendChild(addToAlbumDiv);
+  //---------------------------------------------------------------------
+
   //Create button for adding description to the img.
   //Give it class name of 'add-description-btn'.
   const addDescriptionBtn = createIcon(
@@ -292,12 +346,6 @@ function createGalleryItem(imgSrc) {
 
   const likeButton = createIcon('<i class="far fa-heart"></i>', 'like');
   imgLike(likeButton);
-
-  const addToAlbumBtn = createIcon(
-    '<i class="fas fa-plus"></i>',
-    'add-to-album'
-  );
-  imgAddToAlbum(addToAlbumBtn);
 
   function createIcon(icon, idName) {
     const element = document.createElement('a');
