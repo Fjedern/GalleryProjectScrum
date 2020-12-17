@@ -237,6 +237,23 @@ function imgAddToAlbum(btn) {
 }
 //Eventlisteners End
 
+function imgEnlarge(elementBtn, srcImg) {
+  let modelImg = document.getElementById('modalImg');
+  let modelBackground = document.getElementById('myModal');
+  elementBtn.addEventListener('click', () => {
+    modelBackground.style.display = 'block';
+    modelImg.src = srcImg;
+  });
+}
+
+function imgClose(crossBtn) {
+  let modelBackground = document.getElementById('myModal');
+
+  crossBtn.addEventListener('click', () => {
+    modelBackground.style.display = 'none';
+  });
+}
+
 // Create Gallery Item and all its children.
 function createGalleryItem(imgSrc) {
   //Create div with class of gallery-item.
@@ -291,6 +308,25 @@ function createGalleryItem(imgSrc) {
 
     return element;
   }
+
+  const crossImg = document.createElement('p');
+  crossImg.setAttribute('class', 'close');
+  crossImg.insertAdjacentHTML('afterbegin', '&times;');
+
+  const imgButton = document.createElement('img');
+  imgButton.setAttribute('class', 'modal-content');
+  imgButton.setAttribute('id', 'modalImg');
+
+  const imgBackground = document.createElement('div');
+  imgBackground.setAttribute('class', 'modal');
+  imgBackground.setAttribute('id', 'myModal');
+
+  document.body.appendChild(imgBackground);
+  imgBackground.appendChild(imgButton);
+  imgBackground.appendChild(crossImg);
+
+  imgEnlarge(imgElement, imgElement.src);
+  imgClose(crossImg);
 
   return galleryItem;
 }
