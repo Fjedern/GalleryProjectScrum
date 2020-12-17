@@ -91,6 +91,7 @@ function quickTest() {
 
 // Eventlistener for add descripton btn.
 function imgAddDescription(btn) {
+  console.log("hey");
   btn.addEventListener("click", (event) => {
     const usrDescription = prompt("Enter a description about the image");
 
@@ -142,6 +143,41 @@ function imgLike(btn) {
   });
 }
 
+
+
+
+function imgEnlarge(elementBtn, srcImg){
+let modelImg = document.getElementById("modalImg");
+let modelBackground = document.getElementById("myModal");
+elementBtn.addEventListener("click", () =>{
+    console.log("click working");
+      modelBackground.style.display = "block";
+      modelImg.src = srcImg;
+      
+      
+});
+
+
+}
+
+function imgClose(crossBtn){
+let modelBackground = document.getElementById("myModal");
+
+  crossBtn.addEventListener("click", ()=>{
+    modelBackground.style.display = "none";
+
+
+  });
+
+
+
+}
+
+
+
+
+
+
 // Create Gallery Item and all its children.
 function createGalleryItem(imgSrc) {
   //Create div with class of gallery-item.
@@ -166,6 +202,7 @@ function createGalleryItem(imgSrc) {
   // buttonBox.appendChild(addDescriptionBtn);
   imgAddDescription(addDescriptionBtn);
 
+
   //Primarily for debugging purposes. Reuse logic to show description later.
   const showDescriptionBtn = createIcon('<i class="fas fa-flask"></i>', "show-description");
   imgShowDescription(showDescriptionBtn);
@@ -184,6 +221,34 @@ function createGalleryItem(imgSrc) {
 
     return element;
   }
+
+  
+  
+  const crossImg = document.createElement("p");              
+  crossImg.setAttribute("class", "close");
+  crossImg.insertAdjacentHTML('afterbegin', '&times;');
+  
+  
+
+  const imgButton = document.createElement("img");
+  imgButton.setAttribute("class", "modal-content");
+  imgButton.setAttribute("id", "modalImg");
+  
+
+  const imgBackground = document.createElement("div");
+  imgBackground.setAttribute("class", "modal");
+  imgBackground.setAttribute("id", "myModal");
+
+  document.body.appendChild(imgBackground);
+  imgBackground.appendChild(imgButton);
+  imgBackground.appendChild(crossImg);
+
+
+  imgEnlarge(imgElement, imgElement.src);
+  imgClose(crossImg);
+  
+  
+  
 
   return galleryItem;
 }
