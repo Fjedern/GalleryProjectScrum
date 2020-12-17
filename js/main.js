@@ -87,13 +87,34 @@ function displayImages() {
   // TODO: Create galleryItems for all the images in the album.
   // TODO: Display images.
 
-  const galleryImgs = document.getElementsByTagName('img'); // Will not work if we add additional img elements to the html code.
+  // Remove Gallery Items
+  const galleryItems = Array.from(
+    document.getElementsByClassName('gallery-item')
+  );
+  galleryItems.map((item) => {
+    item.remove();
+  });
+  const gallery = document.getElementById('gallery');
 
-  if (galleryImgs.length > 0) {
-    for (let i = 0; i < imgsObjects.length; i++) {
-      galleryImgs[i].src = imgsObjects[i].imgUrl;
+  imgsObjects.map((object) => {
+    for (const item of object.album) {
+      if (item === activeAlbum) {
+        const galleryItem = createGalleryItem(object.imgUrl);
+        gallery.appendChild(galleryItem);
+        gallery.scrollIntoView();
+
+        // Check if image was liked and set likedButton to true or whatever =)
+      }
     }
-  }
+  });
+
+  // const galleryImgs = document.getElementsByTagName('img'); // Will not work if we add additional img elements to the html code.
+
+  // if (galleryImgs.length > 0) {
+  //   for (let i = 0; i < imgsObjects.length; i++) {
+  //     galleryImgs[i].src = imgsObjects[i].imgUrl;
+  //   }
+  // }
 }
 
 //Handle for albums
@@ -103,16 +124,25 @@ function displayImages() {
     if (albumName) {
       const navList = document.getElementById('nav-list');
       const navItem = document.createElement('li');
+      navItem.setAttribute('id', albumName);
       navItem.setAttribute('class', 'nav-item');
-      const itemLink = document.createElement('a');
-      itemLink.setAttribute('href', '#');
-      itemLink.innerHTML = albumName;
+      const itemButton = document.createElement('button');
+      // itemLink.setAttribute('href', '#');
+      itemButton.textContent = albumName;
+      setAlbumBtn(itemButton);
 
-      navItem.append(itemLink);
+      navItem.append(itemButton);
       navList.appendChild(navItem);
     }
   });
 })();
+
+function setAlbumBtn(btn) {
+  btn.addEventListener('click', () => {
+    setActiveAlbum(btn.textContent);
+    displayImages();
+  });
+}
 
 function getObjectIndex(src) {
   return imgsObjects.findIndex(({ imgUrl }) => {
@@ -130,7 +160,9 @@ function imgAddDescription(btn) {
         'img'
       )[0].src
     );
-    imgsObjects[imgIndex].description = usrDescription;
+    if (usrDescription !== null && usrDescription !== '') {
+      imgsObjects[imgIndex].description = usrDescription;
+    }
   });
 }
 
@@ -191,15 +223,11 @@ function imgLike(btn) {
 
 function setActiveAlbum(albumName) {
   activeAlbum = albumName;
-  // activeAlbum.imageObjects = imgsObjects.filter((object) => {
-  //   return object.album.includes(albumName);
-  // });
 }
 
 document.getElementById('heartCounter').addEventListener('click', () => {
-  //const galleryItems = document.getElementsByClassName('gallery-item');
-  const gallery = document.getElementById('gallery');
   setActiveAlbum('Liked');
+  displayImages();
 });
 
 function imgAddToAlbum(btn) {
@@ -254,61 +282,15 @@ function createGalleryItem(imgSrc) {
   );
   imgAddToAlbum(addToAlbumBtn);
 
-  function createIcon(icon, className) {
+  function createIcon(icon, idName) {
     const element = document.createElement('a');
     element.innerHTML = icon;
-    element.classList.add(className, 'imgButton');
+    element.classList.add('imgButton');
+    element.setAttribute('id', idName);
     buttonBox.appendChild(element);
 
     return element;
   }
-  return galleryItem;
-}
-
-/*
-// Create Gallery Item and all its children.
-function createGalleryItem(imgSrc) {
-  //Create div with class of gallery-item.
-  const galleryItem = document.createElement('div');
-  galleryItem.setAttribute('class', 'gallery-item');
-
-  // Create img element and set src as imgSrc
-  const imgElement = document.createElement('img');
-  imgElement.src = imgSrc;
-  galleryItem.appendChild(imgElement);
-
-  //Create button for adding description to the img.
-  //Give it class name of 'add-description-btn'.
-  const addDescriptionBtn = document.createElement('button');
-  addDescriptionBtn.textContent = 'Add';
-  addDescriptionBtn.setAttribute('class', 'add-description-btn');
-  galleryItem.appendChild(addDescriptionBtn);
-  imgAddDescription(addDescriptionBtn);
-
-  //Primarily for debugging purposes. Reuse logic to show description later.
-  const showDescriptionBtn = document.createElement('button');
-  showDescriptionBtn.setAttribute('class', 'show-description');
-  showDescriptionBtn.textContent = 'Show';
-  galleryItem.appendChild(showDescriptionBtn);
-  imgShowDescription(showDescriptionBtn);
-
-  const deleteBtn = document.createElement('button');
-  deleteBtn.setAttribute('class', 'delete-img');
-  deleteBtn.textContent = 'Delete';
-  galleryItem.appendChild(deleteBtn);
-  imgDelete(deleteBtn);
-
-  const likeButton = document.createElement('button');
-  likeButton.innerHTML = '<i class="far fa-heart"></i>'; // Use set attribute. No <i> tag.
-  likeButton.setAttribute('class', 'like');
-  imgLike(likeButton);
-  galleryItem.appendChild(likeButton);
-
-  const addToAlbumBtn = document.createElement('button');
-  addToAlbumBtn.setAttribute('class', 'fas fa-plus');
-  imgAddToAlbum(addToAlbumBtn);
-  galleryItem.appendChild(addToAlbumBtn);
 
   return galleryItem;
 }
-*/
