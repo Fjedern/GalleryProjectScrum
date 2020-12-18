@@ -23,6 +23,8 @@ class ImgObject {
  * Creates a html img element and sets file objectUrl (blob) as the src.
  * Adds the img element to array and creates
  */
+
+ 
 window.addEventListener("load", function () {
   document
     .querySelector('input[type="file"]')
@@ -32,7 +34,7 @@ window.addEventListener("load", function () {
 
         const galleryItem = createGalleryItem(imgSrc);
 
-        const usrText = "Image Description"; // Default img description.
+        const usrText = ""; // Default img description.
 
         // Create new ImgObject and sotre it in imgsObjects array.
         imgsObjects.push(
@@ -146,13 +148,32 @@ function imgLike(btn) {
 
 
 
-function imgEnlarge(elementBtn, srcImg){
-let modelImg = document.getElementById("modalImg");
-let modelBackground = document.getElementById("myModal");
-elementBtn.addEventListener("click", () =>{
+function imgEnlarge(elementBtn, srcImg, showText){
+  let modelImg = document.getElementById("modalImg");
+  let modelBackground = document.getElementById("myModal");
+  elementBtn.addEventListener("click", () =>{
     console.log("click working");
       modelBackground.style.display = "block";
       modelImg.src = srcImg;
+
+      const objIndex = getObjectIndex(srcImg);
+      showText.insertAdjacentHTML('afterbegin', imgsObjects[objIndex].description);
+
+      // for(let i=0; i<imgsObjects.length;i++){ 
+      //   console.log("hmm");
+      //     if(imgsObjects[i].imgUrl == modelImg.src){ 
+                                                      
+                                                      
+      //       console.log("imgUrl == modelImg");
+      //         if(imgsObjects[i].description != ""){ 
+      //           console.log("not empty");
+      //             showText.insertAdjacentHTML('afterbegin', imgsObjects[i].description);
+
+      //         }
+
+      //     }
+
+      // }
       
       
 });
@@ -161,10 +182,12 @@ elementBtn.addEventListener("click", () =>{
 }
 
 function imgClose(crossBtn){
-let modelBackground = document.getElementById("myModal");
-
+  let modelBackground = document.getElementById("myModal");
+  let modelImg = document.getElementById("modalImg");
   crossBtn.addEventListener("click", ()=>{
     modelBackground.style.display = "none";
+    document.getElementById("modalImg").src = "";
+    document.getElementById("descriptionId").innerHTML = "";
 
 
   });
@@ -223,6 +246,10 @@ function createGalleryItem(imgSrc) {
   }
 
   
+
+  const showDescriptionText = document.createElement("p");
+  showDescriptionText.setAttribute("class", "description");
+  showDescriptionText.setAttribute("id", "descriptionId");
   
   const crossImg = document.createElement("p");              
   crossImg.setAttribute("class", "close");
@@ -242,9 +269,10 @@ function createGalleryItem(imgSrc) {
   document.body.appendChild(imgBackground);
   imgBackground.appendChild(imgButton);
   imgBackground.appendChild(crossImg);
+  imgBackground.appendChild(showDescriptionText);
 
 
-  imgEnlarge(imgElement, imgElement.src);
+  imgEnlarge(imgElement, imgElement.src, showDescriptionText);
   imgClose(crossImg);
   
   

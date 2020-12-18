@@ -31,6 +31,24 @@
     animation-name: zoom;
     animation-duration: 0.6s;
   }
+
+  .description{
+    position:absolute;
+    display:block;
+    font-size:25px;
+    color: #f1f1f1;
+    text-align:left;
+    left:50%;
+    width:25%;
+    max-width:50%;
+    padding-top:4px;
+   
+    
+
+
+  }
+
+  
   
   @keyframes zoom {
     from {transform:scale(0)}
