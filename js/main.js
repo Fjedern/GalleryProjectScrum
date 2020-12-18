@@ -25,7 +25,9 @@ class ImgObject {
  * Creates a html img element and sets file objectUrl (blob) as the src.
  * Adds the img element to array and creates
  */
-window.addEventListener('load', function () {
+
+ 
+window.addEventListener("load", function () {
   document
     .querySelector('input[type="file"]')
     .addEventListener('change', function () {
@@ -34,7 +36,7 @@ window.addEventListener('load', function () {
 
         const galleryItem = createGalleryItem(imgSrc);
 
-        const usrText = 'Image Description'; // Default img description.
+        const usrText = ""; // Default img description.
 
         // Create new ImgObject and sotre it in imgsObjects array.
         imgsObjects.push(
@@ -53,6 +55,7 @@ window.addEventListener('load', function () {
       }
     });
 });
+
 
 // Eventlisteners
 
@@ -211,34 +214,62 @@ function setActiveAlbum(albumName) {
   activeAlbum = albumName;
 }
 
+
+
+function imgEnlarge(elementBtn, srcImg){
+  let modelImg = document.getElementById("modalImg");
+  let modelBackground = document.getElementById("myModal");
+  console.log("whaat");
+  elementBtn.addEventListener("click", () =>{
+    console.log("click working");
+      modelBackground.style.display = "block";
+      modelImg.src = srcImg;
+
+      const objIndex = getObjectIndex(srcImg);
+      console.log(imgsObjects[objIndex].description);
+      document.getElementById("descriptionId").textContent = imgsObjects[objIndex].description;
+      //showText.insertAdjacentHTML('afterbegin', imgsObjects[objIndex].description);
+
+      // for(let i=0; i<imgsObjects.length;i++){ 
+      //   console.log("hmm");
+      //     if(imgsObjects[i].imgUrl == modelImg.src){ 
+                                                      
+                                                      
+      //       console.log("imgUrl == modelImg");
+      //         if(imgsObjects[i].description != ""){ 
+      //           console.log("not empty");
+      //             showText.insertAdjacentHTML('afterbegin', imgsObjects[i].description);
+
+      //         }
+
+      //     }
+
+      // }
+  });
+}
+      
+      
 document.getElementById('heartCounter').addEventListener('click', () => {
   setActiveAlbum('Liked');
   displayImages();
 });
 
-function imgAddToAlbum(btn) {
-  btn.addEventListener('click', () => {
-    console.log('ADD TO ALBUM');
+
+function imgClose(){
+ let closeButton= document.getElementById("closeId");
+  let modelBackground = document.getElementById("myModal");
+  closeButton.addEventListener("click", ()=>{
+    modelBackground.style.display = "none";
+    document.getElementById("modalImg").src = "";
+    document.getElementById("descriptionId").innerHTML = "";
   });
 }
+
 //Eventlisteners End
 
-function imgEnlarge(elementBtn, srcImg) {
-  let modelImg = document.getElementById('modalImg');
-  let modelBackground = document.getElementById('myModal');
-  elementBtn.addEventListener('click', () => {
-    modelBackground.style.display = 'block';
-    modelImg.src = srcImg;
-  });
-}
 
-function imgClose(crossBtn) {
-  let modelBackground = document.getElementById('myModal');
 
-  crossBtn.addEventListener('click', () => {
-    modelBackground.style.display = 'none';
-  });
-}
+
 
 // Create Gallery Item and all its children.
 function createGalleryItem(imgSrc) {
@@ -343,24 +374,10 @@ function createGalleryItem(imgSrc) {
     return element;
   }
 
-  const crossImg = document.createElement('p');
-  crossImg.setAttribute('class', 'close');
-  crossImg.insertAdjacentHTML('afterbegin', '&times;');
-
-  const imgButton = document.createElement('img');
-  imgButton.setAttribute('class', 'modal-content');
-  imgButton.setAttribute('id', 'modalImg');
-
-  const imgBackground = document.createElement('div');
-  imgBackground.setAttribute('class', 'modal');
-  imgBackground.setAttribute('id', 'myModal');
-
-  document.body.appendChild(imgBackground);
-  imgBackground.appendChild(imgButton);
-  imgBackground.appendChild(crossImg);
 
   imgEnlarge(imgElement, imgElement.src);
-  imgClose(crossImg);
+  imgClose();
 
   return galleryItem;
 }
+
