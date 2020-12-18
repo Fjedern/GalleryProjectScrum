@@ -81,12 +81,6 @@ window.addEventListener('load', function () {
 })();
 
 function displayImages() {
-  // TODO:Check if current album is the same as the previous album. If so: display the new images in new order.
-  // Else:
-  // TODO: Remove all galleryItems.
-  // TODO: Create galleryItems for all the images in the album.
-  // TODO: Display images.
-
   // Remove Gallery Items
   const galleryItems = Array.from(
     document.getElementsByClassName('gallery-item')
@@ -107,14 +101,6 @@ function displayImages() {
       }
     }
   });
-
-  // const galleryImgs = document.getElementsByTagName('img'); // Will not work if we add additional img elements to the html code.
-
-  // if (galleryImgs.length > 0) {
-  //   for (let i = 0; i < imgsObjects.length; i++) {
-  //     galleryImgs[i].src = imgsObjects[i].imgUrl;
-  //   }
-  // }
 }
 
 //Handle for albums
@@ -321,7 +307,7 @@ function createGalleryItem(imgSrc) {
   });
 
   buttonBox.appendChild(addToAlbumDiv);
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
   //Create button for adding description to the img.
   //Give it class name of 'add-description-btn'.
