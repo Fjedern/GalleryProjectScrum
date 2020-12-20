@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+
 header {
   width: calc(100vw-20px);
 }
@@ -14,6 +16,7 @@ nav {
   display: flex;
   flex-direction: row;
   width: 100%;
+  flex-wrap: ;
 }
 
 #nav-list {
@@ -61,7 +64,35 @@ nav a {
 }
 
 .iconButtons {
-  font-size: 4em;
+  font-size: 2em;
   text-align: center;
   color: black;
+  margin-top: 10px;
+}
+
+footer {
+  height: 70px;
+  width: 100%;
+  background: rgb(202, 195, 195);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  position: fixed;
+  bottom: 0;
+  margin-top: auto;
+  letter-spacing: 4px;
+  padding: 0.5em;
+}
+
+body {
+  margin-bottom: 68px;
+}
+
+.madeByNames {
+  font-family: "Great Vibes", cursive;
+  color: black;
+  padding-left: 10px;
+  border-left: 1px solid rgb(119, 115, 115);
+  margin: 10px;
 }
