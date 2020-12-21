@@ -96,6 +96,11 @@ body {
   border-left: 1px solid rgb(119, 115, 115);
   margin: 10px;
 }
+
+.madeByNames a {
+  text-decoration: none;
+}
+
 /**
 *Iphone5
 *
