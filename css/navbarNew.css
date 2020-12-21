@@ -96,3 +96,65 @@ body {
   border-left: 1px solid rgb(119, 115, 115);
   margin: 10px;
 }
+/**
+*Iphone5
+*
+*/
+@media only screen and (max-width: 320px) {
+  .flexContainer {
+    margin: 10px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+/**
+*Iphone 6/7/8
+*/
+@media only screen and (max-width: 375px) {
+  .flexContainer {
+    margin: 10px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+/**
+*Iphone 6/7/8 Plus
+*/
+@media only screen and (max-width: 414px) {
+  .flexContainer {
+    margin: 10px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+/**
+*Ipad 
+*/
+@media only screen and (max-width: 768px) {
+  .flexContainer {
+    margin: 10px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-size: 1.5rem;
+  }
+}
+
+/**
+*Ipad pro
+*/
+@media only screen and (max-width: 1024px) {
+  .flexContainer {
+    margin: 10px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-size: 1.5rem;
+  }
+}
