@@ -42,6 +42,10 @@ nav {
   justify-content: space-evenly;
 }
 
+#miscButtons a:hover {
+  cursor: pointer;
+}
+
 .logo {
   font-size: 2em;
 }
