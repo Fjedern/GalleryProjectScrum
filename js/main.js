@@ -269,10 +269,10 @@ function createGalleryItem(imgSrc) {
     const dropDownContentAnchors = Array.from(
       dropDownContent.getElementsByTagName('a')
     );
-    if (albums.length > 1) {
+    if (albums.length > 0) {
       dropDownContent.classList.toggle('show');
       if (dropDownContent.className != 'dropdown-content') {
-        for (let i = 1; i < albums.length; i++) {
+        for (let i = 0; i < albums.length; i++) {
           if (
             !dropDownContentAnchors[i] ||
             dropDownContentAnchors[i].textContent != albums[i].textContent
