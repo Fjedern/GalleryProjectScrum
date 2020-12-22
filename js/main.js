@@ -123,6 +123,8 @@ function displayImages() {
   });
 })();
 
+setAlbumBtn(document.getElementById('All')); // Add eventlistener to default album "All".
+
 function setAlbumBtn(btn) {
   btn.addEventListener('click', () => {
     setActiveAlbum(btn.textContent);
@@ -149,16 +151,6 @@ function imgAddDescription(btn) {
     if (usrDescription !== null && usrDescription !== '') {
       imgsObjects[imgIndex].description = usrDescription;
     }
-  });
-}
-
-function imgShowDescription(btn) {
-  btn.addEventListener('click', (event) => {
-    const galleryItem = event.target.parentElement.parentElement.parentElement;
-    const imgObject = imgsObjects.find(({ imgUrl }) => {
-      return imgUrl == galleryItem.getElementsByTagName('img')[0].src;
-    });
-    console.log(imgObject.description);
   });
 }
 
@@ -214,32 +206,13 @@ function setActiveAlbum(albumName) {
 function imgEnlarge(elementBtn, srcImg) {
   let modelImg = document.getElementById('modalImg');
   let modelBackground = document.getElementById('myModal');
-  console.log('whaat');
   elementBtn.addEventListener('click', () => {
-    console.log('click working');
     modelBackground.style.display = 'block';
     modelImg.src = srcImg;
 
     const objIndex = getObjectIndex(srcImg);
-    console.log(imgsObjects[objIndex].description);
     document.getElementById('descriptionId').textContent =
       imgsObjects[objIndex].description;
-    //showText.insertAdjacentHTML('afterbegin', imgsObjects[objIndex].description);
-
-    // for(let i=0; i<imgsObjects.length;i++){
-    //   console.log("hmm");
-    //     if(imgsObjects[i].imgUrl == modelImg.src){
-
-    //       console.log("imgUrl == modelImg");
-    //         if(imgsObjects[i].description != ""){
-    //           console.log("not empty");
-    //             showText.insertAdjacentHTML('afterbegin', imgsObjects[i].description);
-
-    //         }
-
-    //     }
-
-    // }
   });
 }
 
@@ -296,10 +269,10 @@ function createGalleryItem(imgSrc) {
     const dropDownContentAnchors = Array.from(
       dropDownContent.getElementsByTagName('a')
     );
-    if (albums.length > 0) {
+    if (albums.length > 1) {
       dropDownContent.classList.toggle('show');
       if (dropDownContent.className != 'dropdown-content') {
-        for (let i = 0; i < albums.length; i++) {
+        for (let i = 1; i < albums.length; i++) {
           if (
             !dropDownContentAnchors[i] ||
             dropDownContentAnchors[i].textContent != albums[i].textContent
@@ -336,13 +309,6 @@ function createGalleryItem(imgSrc) {
     'add-description-btn'
   );
   imgAddDescription(addDescriptionBtn);
-
-  //Primarily for debugging purposes. Reuse logic to show description later.
-  const showDescriptionBtn = createIcon(
-    '<i class="fas fa-flask"></i>',
-    'show-description'
-  );
-  imgShowDescription(showDescriptionBtn);
 
   const deleteBtn = createIcon(
     '<i class="far fa-trash-alt"></i>',
